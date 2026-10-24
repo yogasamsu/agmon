@@ -16,6 +16,28 @@ Every satellite fire hotspot tied to the permit holder whose land it falls on, r
 
 > The permit in `data/` is fictional and the hotspots are synthetic, made so the demo always triggers. Live hotspots come straight from NASA FIRMS.
 
+## Monad Blitz scorecard
+
+Evidence for each judging criterion. Numbers as of 24 Oct 2026, 16:20 WIB.
+
+| Criterion | Points | Evidence |
+| --- | --- | --- |
+| Basic · Public GitHub repo | 25 | This repository |
+| Basic · README with live page and contract address | 25 | Table above |
+| Basic · Contract deployed on Monad testnet during the Blitz | 25 | FireBond deployed 24 Oct 2026, 11:48:10 WIB · [deploy tx](https://testnet.monadvision.com/tx/0x547a2fde1441eaa867871aa9b03b0de5d11fe11b9bb774c8375e50a8e4fc736c) |
+| Basic · Project publicly hosted | 25 | https://agmon.site |
+| Advance · All announced functions working | 25 | Permit registry, fire bond, NASA FIRMS oracle (7 batches anchored, 29,985 hotspots stored, 12 incidents reported), confirm and reject, 20% slash to the restoration fund, integrity check, national overview |
+| Advance · Live transaction on chain during the demo | 25 | `confirmFire` from the verifier's MetaMask, 12:46:48 WIB: [tx](https://testnet.monadvision.com/tx/0xabd47c078d9ff6bfea190eb8ac6d5a2394f1592d042492d95f860c1a0a7d6894). Another one is sent live on stage. |
+| Advance · Contract verified | 25 | [MonadVision](https://testnet.monadvision.com/address/0x9678b78624706d383b606412A37289879cE8bC8A) (perfect match) and [Monadscan](https://testnet.monadscan.com/address/0x9678b78624706d383b606412A37289879cE8bC8A) |
+| Advance · Someone else can run it from the README | 25 | Path A: web only, about 3 minutes, public read-only key. Path B: full stack. |
+| Advance · Posted on X or LinkedIn with @monad @monad_dev @geeky_kartikey | 25 | X: _link pending_ · LinkedIn: _link pending_ |
+| Advance · Demo video, 30 s or more | 25 | _link pending_ |
+| Advance · Creative ad video | 25 | 55-second AgMon story video: _link pending_ |
+| Advance · 5K+ combined views | 25 | _count pending_ |
+| Bonus · Contract on Monad mainnet | 25 | Not done; testnet only |
+| Bonus · Public page on a custom domain | 15 | https://agmon.site |
+| Bonus · Product-market fit, revenue, innovation | up to 60 | Government as the paying customer, IDR 0.5–1.5 billion per province per year plus a per-hectare fee (see the *Business model* section on agmon.site); satellite detection plus field verification triggering an automatic bond payout on Monad |
+
 ## The problem
 
 Indonesia can already see its forest fires: the government's SiPongi system and NASA FIRMS show every hotspot. What is missing is a fast chain from *hotspot* to *the permit holder responsible* to *a financial consequence*. Today that chain runs through court cases that take years, and the data itself gets disputed. In 2019 fires burned about 1.6 million hectares.

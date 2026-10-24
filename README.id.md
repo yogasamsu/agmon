@@ -16,6 +16,28 @@ Setiap titik api satelit terikat ke pemegang izin pemilik lahannya, tercatat di 
 
 > Izin di `data/` fiktif dan titik apinya sintetis, dibuat supaya alur demo pasti terpicu. Data titik api asli ditarik langsung dari NASA FIRMS.
 
+## Scorecard Monad Blitz
+
+Bukti untuk setiap kriteria penilaian. Angka per 24 Okt 2026, 16.20 WIB.
+
+| Kriteria | Poin | Bukti |
+| --- | --- | --- |
+| Basic · Repo GitHub publik | 25 | Repo ini |
+| Basic · README memuat halaman live dan alamat kontrak | 25 | Tabel di atas |
+| Basic · Kontrak di-deploy di Monad testnet selama Blitz | 25 | FireBond di-deploy 24 Okt 2026, 11.48.10 WIB · [tx deploy](https://testnet.monadvision.com/tx/0x547a2fde1441eaa867871aa9b03b0de5d11fe11b9bb774c8375e50a8e4fc736c) |
+| Basic · Proyek di-host publik | 25 | https://agmon.site |
+| Advance · Semua fungsi yang diumumkan berjalan | 25 | Registri izin, jaminan kebakaran, oracle NASA FIRMS (7 batch tercatat, 29.985 titik api tersimpan, 12 insiden dilaporkan), konfirmasi dan tolak, potongan 20% ke dana restorasi, cek integritas, ringkasan nasional |
+| Advance · Transaksi live saat demo | 25 | `confirmFire` dari MetaMask verifikator, 12.46.48 WIB: [tx](https://testnet.monadvision.com/tx/0xabd47c078d9ff6bfea190eb8ac6d5a2394f1592d042492d95f860c1a0a7d6894). Satu lagi dikirim langsung di panggung. |
+| Advance · Kontrak terverifikasi | 25 | [MonadVision](https://testnet.monadvision.com/address/0x9678b78624706d383b606412A37289879cE8bC8A) (perfect match) dan [Monadscan](https://testnet.monadscan.com/address/0x9678b78624706d383b606412A37289879cE8bC8A) |
+| Advance · Bisa dijalankan orang lain dari README | 25 | Jalur A: web saja, sekitar 3 menit, kunci publik hanya-baca. Jalur B: semua komponen. |
+| Advance · Posting X atau LinkedIn dengan tag @monad @monad_dev @geeky_kartikey | 25 | X: _tautan menyusul_ · LinkedIn: _tautan menyusul_ |
+| Advance · Video demo, minimal 30 detik | 25 | _tautan menyusul_ |
+| Advance · Video iklan kreatif | 25 | Video cerita AgMon 55 detik: _tautan menyusul_ |
+| Advance · 5.000+ tayangan gabungan | 25 | _jumlah menyusul_ |
+| Bonus · Kontrak di Monad mainnet | 25 | Belum; hanya testnet |
+| Bonus · Halaman publik di domain sendiri | 15 | https://agmon.site |
+| Bonus · Product-market fit, pendapatan, inovasi | s.d. 60 | Pemerintah sebagai pelanggan yang membayar, Rp0,5–1,5 miliar per provinsi per tahun plus biaya per hektare (lihat bagian *Model bisnis* di agmon.site); deteksi satelit plus verifikasi lapangan yang memicu pencairan jaminan otomatis di Monad |
+
 ## Masalah
 
 Pemerintah sudah bisa melihat titik api lewat SiPongi dan NASA FIRMS. Yang belum ada adalah rantai cepat dari *titik api* ke *pemegang izin yang bertanggung jawab* ke *konsekuensi finansial*. Saat ini rantai itu bergantung pada proses hukum yang bisa memakan waktu bertahun-tahun, dan datanya sendiri bisa dibantah. Pada 2019, kebakaran menghanguskan sekitar 1,6 juta hektare.
