@@ -30,15 +30,17 @@ Bukti untuk setiap kriteria penilaian. Angka per 24 Okt 2026, 16.20 WIB.
 | Advance · Transaksi live saat demo | 25 | `confirmFire` dari MetaMask verifikator, 12.46.48 WIB: [tx](https://testnet.monadvision.com/tx/0xabd47c078d9ff6bfea190eb8ac6d5a2394f1592d042492d95f860c1a0a7d6894). Satu lagi dikirim langsung di panggung. |
 | Advance · Kontrak terverifikasi | 25 | [MonadVision](https://testnet.monadvision.com/address/0x9678b78624706d383b606412A37289879cE8bC8A) (perfect match) dan [Monadscan](https://testnet.monadscan.com/address/0x9678b78624706d383b606412A37289879cE8bC8A) |
 | Advance · Bisa dijalankan orang lain dari README | 25 | Jalur A: web saja, sekitar 3 menit, kunci publik hanya-baca. Jalur B: semua komponen. |
-| Advance · Posting X atau LinkedIn dengan tag @monad @monad_dev @geeky_kartikey | 25 | X: _tautan menyusul_ · LinkedIn: _tautan menyusul_ |
+| Advance · Posting X atau LinkedIn dengan tag @monad @monad_dev @geeky_kartikey | 25 | [Posting X](https://x.com/yogasams/status/2113900907784232969) · [Posting LinkedIn](https://www.linkedin.com/posts/yogasamsu_monad-blockchain-karhutla-ugcPost-7519652189989081088-By2d/) |
 | Advance · Video demo, minimal 30 detik | 25 | _tautan menyusul_ |
-| Advance · Video iklan kreatif | 25 | Video cerita AgMon 55 detik: _tautan menyusul_ |
+| Advance · Video iklan kreatif | 25 | Video cerita AgMon 55 detik, diposting di [X](https://x.com/yogasams/status/2113900907784232969) |
 | Advance · 5.000+ tayangan gabungan | 25 | _jumlah menyusul_ |
 | Bonus · Kontrak di Monad mainnet | 25 | Belum; hanya testnet |
 | Bonus · Halaman publik di domain sendiri | 15 | https://agmon.site |
 | Bonus · Product-market fit, pendapatan, inovasi | s.d. 60 | Pemerintah sebagai pelanggan yang membayar, Rp0,5–1,5 miliar per provinsi per tahun plus biaya per hektare (lihat bagian *Model bisnis* di agmon.site); deteksi satelit plus verifikasi lapangan yang memicu pencairan jaminan otomatis di Monad |
 
 ## Masalah
+
+<p align="center"><img src="docs/img/orangutan-infus.webp" alt="Orangutan diinfus" width="560"><br><sub>Ini bukan hanya soal kita, tapi juga soal makhluk hidup di hutan. Foto: <a href="https://ugm.ac.id/id/berita/karhutla-makin-parah-guru-besar-ugm-ingatkan-ancaman-punahnya-habitat-orangutan/">Universitas Gadjah Mada</a>.</sub></p>
 
 Pemerintah sudah bisa melihat titik api lewat SiPongi dan NASA FIRMS. Yang belum ada adalah rantai cepat dari *titik api* ke *pemegang izin yang bertanggung jawab* ke *konsekuensi finansial*. Saat ini rantai itu bergantung pada proses hukum yang bisa memakan waktu bertahun-tahun, dan datanya sendiri bisa dibantah. Pada 2019, kebakaran menghanguskan sekitar 1,6 juta hektare.
 

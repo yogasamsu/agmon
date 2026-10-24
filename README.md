@@ -30,15 +30,17 @@ Evidence for each judging criterion. Numbers as of 24 Oct 2026, 16:20 WIB.
 | Advance · Live transaction on chain during the demo | 25 | `confirmFire` from the verifier's MetaMask, 12:46:48 WIB: [tx](https://testnet.monadvision.com/tx/0xabd47c078d9ff6bfea190eb8ac6d5a2394f1592d042492d95f860c1a0a7d6894). Another one is sent live on stage. |
 | Advance · Contract verified | 25 | [MonadVision](https://testnet.monadvision.com/address/0x9678b78624706d383b606412A37289879cE8bC8A) (perfect match) and [Monadscan](https://testnet.monadscan.com/address/0x9678b78624706d383b606412A37289879cE8bC8A) |
 | Advance · Someone else can run it from the README | 25 | Path A: web only, about 3 minutes, public read-only key. Path B: full stack. |
-| Advance · Posted on X or LinkedIn with @monad @monad_dev @geeky_kartikey | 25 | X: _link pending_ · LinkedIn: _link pending_ |
+| Advance · Posted on X or LinkedIn with @monad @monad_dev @geeky_kartikey | 25 | [X post](https://x.com/yogasams/status/2113900907784232969) · [LinkedIn post](https://www.linkedin.com/posts/yogasamsu_monad-blockchain-karhutla-ugcPost-7519652189989081088-By2d/) |
 | Advance · Demo video, 30 s or more | 25 | _link pending_ |
-| Advance · Creative ad video | 25 | 55-second AgMon story video: _link pending_ |
+| Advance · Creative ad video | 25 | 55-second AgMon story video, posted on [X](https://x.com/yogasams/status/2113900907784232969) |
 | Advance · 5K+ combined views | 25 | _count pending_ |
 | Bonus · Contract on Monad mainnet | 25 | Not done; testnet only |
 | Bonus · Public page on a custom domain | 15 | https://agmon.site |
 | Bonus · Product-market fit, revenue, innovation | up to 60 | Government as the paying customer, IDR 0.5–1.5 billion per province per year plus a per-hectare fee (see the *Business model* section on agmon.site); satellite detection plus field verification triggering an automatic bond payout on Monad |
 
 ## The problem
+
+<p align="center"><img src="docs/img/orangutan-infus.webp" alt="An orangutan on an IV drip" width="560"><br><sub>This is not only about us. It is about every living thing in the forest. Photo: <a href="https://ugm.ac.id/id/berita/karhutla-makin-parah-guru-besar-ugm-ingatkan-ancaman-punahnya-habitat-orangutan/">Universitas Gadjah Mada</a>.</sub></p>
 
 Indonesia can already see its forest fires: the government's SiPongi system and NASA FIRMS show every hotspot. What is missing is a fast chain from *hotspot* to *the permit holder responsible* to *a financial consequence*. Today that chain runs through court cases that take years, and the data itself gets disputed. In 2019 fires burned about 1.6 million hectares.
 
