@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect, useMemo, useRef } from "react";
 import { CircleMarker, GeoJSON, LayersControl, MapContainer, Popup, TileLayer, useMap } from "react-leaflet";
-import { STATUS, formatWib } from "@/lib/chain";
+import { STATUS, firmsMapUrl, formatWib } from "@/lib/chain";
 import { LOCALE, useLang } from "@/lib/i18n";
 import { LOSS_PER_HOTSPOT_IDR, formatRupiah } from "@/lib/loss";
 import type { ConcessionView, HotspotView, IncidentView } from "@/lib/types";
@@ -144,6 +144,10 @@ export default function FireMap({ concessions, hotspots, incidents, focusId, onS
             ) : null}
             <br />
             {t.batchTitle(h.batchId)}
+            <br />
+            <a href={firmsMapUrl({ lat: h.lat, lng: h.lng, unix: h.observedAt })} target="_blank" rel="noreferrer">
+              {t.openNasa}
+            </a>
           </Popup>
         </CircleMarker>
       ))}

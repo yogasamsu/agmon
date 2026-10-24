@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FIREBOND, REPO_URL, STATUS, addressUrl, formatIdr, formatMon, formatWib } from "@/lib/chain";
+import { FIREBOND, REPO_URL, STATUS, addressUrl, firmsMapUrl, formatIdr, formatMon, formatWib } from "@/lib/chain";
 import { LOCALE, useLang } from "@/lib/i18n";
 import type { DashboardData } from "@/lib/types";
 import type { Flare } from "./FlameLayer";
@@ -100,6 +100,9 @@ export default function Dashboard() {
             </a>
             {latestFirms ? ` · ${t.lastFetch(formatWib(latestFirms.toUnix, locale))}` : null}
           </p>
+          <a className="btn nasa-btn" href={firmsMapUrl()} target="_blank" rel="noreferrer">
+            {t.checkNasa}
+          </a>
         </div>
         <div className="stat-groups">
           <div className="stat-group">

@@ -95,6 +95,8 @@ const en = {
   heroNameTitle: "Why \u201cAgMon\u201d?",
   heroName:
     "Agni + Monad. Agni is the Hindu god of fire, and the namesake of Manggala Agni, the forest fire brigade that verifies every incident in AgMon. Monad is the blockchain that makes each fire's consequence public and immediate, with a record no one can quietly change.",
+  checkNasa: "Check the data on NASA FIRMS ↗",
+  openNasa: "Open in NASA FIRMS ↗",
   dataSourceLabel: "Hotspot data",
   dataSource: "NASA FIRMS · VIIRS 375 m (Suomi NPP, NOAA-20, NOAA-21), near real-time",
   lastFetch: (time: string) => `latest satellite observation ${time}`,
@@ -292,6 +294,8 @@ const id: Dict = {
   heroNameTitle: "Mengapa \u201cAgMon\u201d?",
   heroName:
     "Agni + Monad. Agni adalah dewa api dalam mitologi Hindu, sekaligus nama Manggala Agni, brigade pengendalian kebakaran hutan yang memverifikasi setiap insiden di AgMon. Monad adalah blockchain yang membuat konsekuensi setiap kebakaran tercatat terbuka dan langsung berlaku, tanpa ada yang bisa mengubahnya diam-diam.",
+  checkNasa: "Cek data di NASA FIRMS ↗",
+  openNasa: "Buka di NASA FIRMS ↗",
   dataSourceLabel: "Data titik api",
   dataSource: "NASA FIRMS · VIIRS 375 m (Suomi NPP, NOAA-20, NOAA-21), hampir waktu nyata",
   lastFetch: (time) => `observasi satelit terbaru ${time}`,

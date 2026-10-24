@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { keccak256, zeroHash, type Hex } from "viem";
 import { fireBondAbi } from "@/lib/abi";
-import { FIREBOND, STATUS, formatWib, monad, publicClient, shortHash, txUrl } from "@/lib/chain";
+import { FIREBOND, STATUS, firmsMapUrl, formatWib, monad, publicClient, shortHash, txUrl } from "@/lib/chain";
 import { LOCALE, useLang } from "@/lib/i18n";
 import type { IncidentView } from "@/lib/types";
 import { NoWalletError, connectWallet } from "@/lib/wallet";
@@ -83,9 +83,19 @@ export default function IncidentCard({ incident, concessionName, onDecided, onFo
         {concessionName} · {formatWib(incident.observedAt, LOCALE[lang])}
       </p>
       {incident.lat !== null ? (
-        <button className="link-btn" onClick={onFocus}>
-          {t.showOnMap} →
-        </button>
+        <span className="link-row">
+          <button className="link-btn" onClick={onFocus}>
+            {t.showOnMap} →
+          </button>
+          <a
+            className="small"
+            href={firmsMapUrl({ lat: incident.lat, lng: incident.lng!, unix: incident.observedAt })}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {t.openNasa}
+          </a>
+        </span>
       ) : null}
       <p className="muted small">
         <abbr title={t.cellHint}>{t.cellLabel}</abbr> <span className="mono">{incident.cell}</span>
