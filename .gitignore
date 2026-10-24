@@ -15,3 +15,7 @@ oracle/spool/
 
 # Slide panitia memuat kata sandi Wi-Fi acara; jangan masuk repo publik.
 blitz-slides-redesign.pdf
+
+# Berkas kerja lokal (konfigurasi agen, aset mentah logo).
+.claude/
+output/

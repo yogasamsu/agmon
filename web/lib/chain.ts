@@ -40,4 +40,20 @@ export function formatWib(unix: number, locale = "id-ID"): string {
   );
 }
 
+/**
+ * Skala demo: berapa Rupiah yang diwakili 1 MON testnet. Faucet hanya memberi beberapa MON,
+ * jadi jaminan 10 MON dibaca sebagai Rp1 miliar. Angka MON aslinya tetap ditampilkan di sebelahnya.
+ */
+export const IDR_PER_MON = Number(process.env.NEXT_PUBLIC_DEMO_IDR_PER_MON || 100_000_000);
+
+type IdrUnits = { billion: string; million: string; prefix: string };
+
+export function formatIdr(wei: string | bigint, units: IdrUnits, locale = "id-ID", perMon = IDR_PER_MON): string {
+  const idr = Number(formatEther(BigInt(wei))) * perMon;
+  const num = (n: number) => n.toLocaleString(locale, { maximumFractionDigits: 2 });
+  if (idr >= 1e9) return `${units.prefix}${num(idr / 1e9)} ${units.billion}`;
+  if (idr >= 1e6) return `${units.prefix}${num(idr / 1e6)} ${units.million}`;
+  return `${units.prefix}${num(idr)}`;
+}
+
 export const shortHash = (hash: string) => `${hash.slice(0, 6)}…${hash.slice(-4)}`;

@@ -2,13 +2,13 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FIREBOND, REPO_URL, STATUS, addressUrl, formatMon } from "@/lib/chain";
-import { LOCALE, useLang, type Lang } from "@/lib/i18n";
+import { FIREBOND, REPO_URL, STATUS, addressUrl, formatIdr, formatMon } from "@/lib/chain";
+import { LOCALE, useLang } from "@/lib/i18n";
 import type { DashboardData } from "@/lib/types";
 import FireBand from "./FireBand";
 import IncidentCard from "./IncidentCard";
 import IntegrityCheck from "./IntegrityCheck";
-import Logo from "./Logo";
+import SiteHeader from "./SiteHeader";
 
 // Leaflet butuh `window`, jadi peta hanya dirender di browser.
 const FireMap = dynamic(() => import("./FireMap"), {
@@ -19,7 +19,7 @@ const FireMap = dynamic(() => import("./FireMap"), {
 const REFRESH_MS = 30_000;
 
 export default function Dashboard() {
-  const { lang, t, setLang } = useLang();
+  const { lang, t } = useLang();
   const locale = LOCALE[lang];
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -94,16 +94,7 @@ export default function Dashboard() {
 
   return (
     <div className="shell">
-      <header className="topbar">
-        <div className="brand">
-          <Logo />
-          <div>
-            <h1>AgMon</h1>
-            <p>{t.tagline}</p>
-          </div>
-        </div>
-        <LangSwitch lang={lang} setLang={setLang} label={t.langLabel} />
-      </header>
+      <SiteHeader />
 
       <section className="hero">
         <p className="intro">
@@ -119,14 +110,16 @@ export default function Dashboard() {
             <dd className="mono-num">
               {data?.fundAddress ? (
                 <a href={addressUrl(data.fundAddress)} target="_blank" rel="noreferrer">
-                  {formatMon(data.fundBalanceWei, locale)}
+                  {formatIdr(data.fundBalanceWei, t.idrUnits, locale)}
                 </a>
               ) : (
                 "–"
               )}
+              {data?.fundAddress ? <span className="sub">{formatMon(data.fundBalanceWei, locale)}</span> : null}
             </dd>
           </div>
         </dl>
+        <p className="scale-note">{t.demoScale(formatIdr(10n ** 18n, t.idrUnits, locale))}</p>
       </section>
 
       {error ? (
@@ -187,7 +180,8 @@ export default function Dashboard() {
               <div className="card-head">
                 <strong>{c.name}</strong>
                 <span className="bond" title={t.bondLabel}>
-                  {formatMon(c.bondWei, locale)}
+                  {formatIdr(c.bondWei, t.idrUnits, locale)}
+                  <span className="sub">{formatMon(c.bondWei, locale)}</span>
                 </span>
               </div>
               <p className="muted small">{t.permitFires(c.confirmedFires, c.openIncidents)}</p>
@@ -227,14 +221,3 @@ function Stat({ label, value, tone }: { label: string; value: number | undefined
   );
 }
 
-function LangSwitch({ lang, setLang, label }: { lang: Lang; setLang: (l: Lang) => void; label: string }) {
-  return (
-    <div className="lang" role="group" aria-label={label}>
-      {(["en", "id"] as const).map((l) => (
-        <button key={l} className={`lang-btn ${lang === l ? "on" : ""}`} aria-pressed={lang === l} onClick={() => setLang(l)}>
-          {l.toUpperCase()}
-        </button>
-      ))}
-    </div>
-  );
-}

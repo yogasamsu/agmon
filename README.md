@@ -1,3 +1,5 @@
+<p align="center"><img src="web/public/agmon-logo.png" alt="AgMon" width="260"></p>
+
 # AgMon · Agni Monad
 
 **English** · [Bahasa Indonesia](README.id.md)
@@ -32,7 +34,14 @@ Money moves only after a human verifies in the field. Satellites mistake hot tin
 
 ### Why Monad
 
-Each hotspot report is one transaction of about 190k gas, and at the peak of fire season there can be thousands a day. Monad's 0.6 s finality is also what makes the demo land: the moment the officer presses Confirm, the bond on screen drops. The oracle uses `eth_sendRawTransactionSync`, so it gets the receipt in the same call.
+Two jobs in AgMon need a chain that is both fast and high-throughput:
+
+1. **National ingestion at the peak of the dry season.** Thousands of satellite hotspots across Indonesia arrive every day, plus field decisions from verifiers. Each report is one transaction of about 190k gas. Monad's 10,000 TPS keeps that from queuing.
+2. **Instant freeze.** The moment the oracle reports a hotspot inside a permit, `openIncidents > 0` and `withdrawBond` is blocked. With 0.6 s finality the holder cannot pull the bond out while the land starts to burn.
+
+The same finality is what the room sees in the demo: when the officer presses Confirm, the bond on screen drops and the restoration fund rises in the same transaction. The oracle uses `eth_sendRawTransactionSync`, so it gets the receipt in the same call.
+
+**Where the money lives.** The demo uses native testnet MON; 10 MON is a representation unit because the faucet only hands out small amounts (1 MON on mainnet is around Rp400 at the time of writing). In production the bond stays on chain in the FireBond contract, as a tokenized escrow: a Rupiah stablecoin such as IDRX, or a tokenized bank guarantee from a state-owned bank, with BPDLH as the recipient. `confirmFire` then moves 20% to restoration atomically in one transaction, instead of waiting weeks for manual clearing.
 
 ### Architecture
 
@@ -43,9 +52,11 @@ NASA FIRMS ──> oracle (Node, viem, h3-js, cron 30 min)
 web (Next.js on Vercel) ── reads both; verifier signs confirmFire / rejectFire with a browser wallet
 ```
 
+The web app has two pages: `/` explains the problem, the solution, why Monad, and who benefits; `/dashboard` is the live map with incidents, the verifier's Confirm and Reject buttons, and the integrity check.
+
 | Component | Stack | Folder |
 | --- | --- | --- |
-| Contract | Solidity 0.8.28, Foundry, 18 tests | `contracts/` |
+| Contract | Solidity ^0.8.24 (compiled with solc 0.8.28), Foundry, 18 tests | `contracts/` |
 | Oracle | Node.js, viem, h3-js | `oracle/` |
 | Database | Supabase (Postgres + row level security) | `supabase/schema.sql` |
 | Web | Next.js, Leaflet, viem | `web/` |
@@ -144,7 +155,7 @@ Each time `FireBond.sol` changes, run `forge build` and then `node scripts/expor
 
 ## Demo script
 
-1. Open the live app. The map shows the permit in Ketapang, West Kalimantan, and the hotspots. The fire along the bottom of the screen rises with the number of Suspected incidents.
+1. Open the live app at `/dashboard`. The map shows the permit in Ketapang, West Kalimantan, and the hotspots. The fire along the bottom of the screen rises with the number of Suspected incidents.
 2. Connect MetaMask with the verifier wallet, optionally attach a photo, and press **Confirm fire**. The bond drops from 10 to 8 MON, the restoration fund rises by 2 MON, the fire flares, and the scorch at the bottom of the screen thickens.
 3. Open the transaction in the explorer.
 4. Press **Check integrity** on the batch: **Match**. Change one `frp` value in the Supabase table editor and check again: **Mismatch**.
@@ -156,9 +167,10 @@ To record the ad video without touching data, append `?fire=<suspected>,<confirm
 ## Deliberate limits
 
 - One centralised oracle. Production plan: several independent oracles and an objection period for the permit holder.
-- In production the bond sits in a bank guarantee, not in crypto. The chain is the record and the trigger; the bank pays out to BPDLH when it sees the `BondSlashed` event.
+- The demo bond is native testnet MON. Production holds it on chain as a Rupiah stablecoin or a tokenized bank guarantee (see Why Monad).
+- Each confirmed fire slashes 20% of the *remaining* bond (10 → 8 → 6.4 MON). In production (P1) the slash is a fixed 20% of the initial required bond, and the holder must top up (replenish) within a set deadline.
 - Only hashes, H3 cell ids, timestamps, and decisions go on the public chain. Raw data and permit maps stay on government servers.
-- In this demo the deployer plays the regulator. A regulator role in the contract is on the roadmap.
+- `registerConcession` is open to any wallet in this demo, and the deployer plays the regulator. In production (P1) it is locked with an `onlyRegulator` modifier, so only the Ministry of Forestry wallet can register a permit on the holder's behalf.
 
 ## Public read-only key
 

@@ -1,3 +1,5 @@
+<p align="center"><img src="web/public/agmon-logo.png" alt="AgMon" width="260"></p>
+
 # AgMon · Agni Monad
 
 [English](README.md) · **Bahasa Indonesia**
@@ -32,7 +34,14 @@ Uang baru bergerak setelah manusia memverifikasi di lapangan. Satelit bisa salah
 
 ### Kenapa Monad
 
-Setiap laporan titik api adalah satu transaksi sekitar 190 ribu gas, dan saat puncak musim kebakaran jumlahnya bisa ribuan per hari. Finalitas 0,6 detik juga terlihat saat demo: begitu petugas menekan Konfirmasi, angka jaminan di layar langsung turun. Oracle memakai `eth_sendRawTransactionSync`, jadi receipt kembali di panggilan yang sama.
+Dua tugas AgMon butuh chain yang cepat sekaligus sanggup menampung banyak transaksi:
+
+1. **Ingesti nasional saat puncak musim kemarau.** Ribuan titik api satelit dari seluruh Indonesia masuk setiap hari, ditambah keputusan verifikator lapangan. Setiap laporan adalah satu transaksi sekitar 190 ribu gas. Kapasitas 10.000 TPS Monad membuatnya tidak mengantre.
+2. **Pembekuan instan.** Begitu oracle melaporkan titik api di dalam izin, `openIncidents > 0` dan `withdrawBond` langsung terblokir. Dengan finalitas 0,6 detik, pemegang izin tidak bisa menarik jaminan saat lahannya mulai terbakar.
+
+Finalitas yang sama terlihat langsung saat demo: begitu petugas menekan Konfirmasi, jaminan di layar turun dan dana restorasi naik dalam satu transaksi. Oracle memakai `eth_sendRawTransactionSync`, jadi receipt kembali di panggilan yang sama.
+
+**Di mana uangnya.** Demo memakai MON testnet; 10 MON adalah unit representasi karena faucet hanya memberi sedikit MON (harga 1 MON mainnet saat ini sekitar Rp400). Di produksi, jaminan tetap on-chain di kontrak FireBond sebagai escrow tertokenisasi: stablecoin Rupiah seperti IDRX, atau bank garansi tertokenisasi dari bank BUMN, dengan BPDLH sebagai penerima. `confirmFire` lalu memindahkan 20% ke dana restorasi secara atomik dalam satu transaksi, tanpa menunggu kliring manual berminggu-minggu.
 
 ### Arsitektur
 
@@ -43,9 +52,11 @@ NASA FIRMS ──> oracle (Node, viem, h3-js, cron 30 menit)
 web (Next.js di Vercel) ── membaca keduanya; verifikator menandatangani confirmFire / rejectFire lewat dompet browser
 ```
 
+Web punya dua halaman: `/` menjelaskan masalah, solusi, alasan memilih Monad, dan siapa yang diuntungkan; `/dashboard` berisi peta live, daftar insiden, tombol Konfirmasi dan Tolak untuk verifikator, serta cek integritas.
+
 | Komponen | Teknologi | Folder |
 | --- | --- | --- |
-| Kontrak | Solidity 0.8.28, Foundry, 18 tes | `contracts/` |
+| Kontrak | Solidity ^0.8.24 (dikompilasi dengan solc 0.8.28), Foundry, 18 tes | `contracts/` |
 | Oracle | Node.js, viem, h3-js | `oracle/` |
 | Database | Supabase (Postgres + row level security) | `supabase/schema.sql` |
 | Web | Next.js, Leaflet, viem | `web/` |
@@ -144,7 +155,7 @@ Setiap kali `FireBond.sol` diubah, jalankan `forge build` lalu `node scripts/exp
 
 ## Naskah demo
 
-1. Buka aplikasi live. Peta menampilkan izin di Ketapang, Kalimantan Barat, beserta titik apinya. Api di tepi bawah layar ikut naik sesuai jumlah insiden Diduga.
+1. Buka aplikasi live di `/dashboard`. Peta menampilkan izin di Ketapang, Kalimantan Barat, beserta titik apinya. Api di tepi bawah layar ikut naik sesuai jumlah insiden Diduga.
 2. Sambungkan MetaMask berisi dompet verifikator, lampirkan foto bila ada, lalu tekan **Konfirmasi kebakaran**. Jaminan turun dari 10 ke 8 MON, dana restorasi naik 2 MON, api menyala sesaat, dan bekas gosong di bawah layar menebal.
 3. Buka transaksinya di explorer.
 4. Tekan **Cek integritas** pada batch: hasilnya **Cocok**. Ubah satu nilai `frp` di table editor Supabase, lalu cek lagi: **Tidak cocok**.
@@ -156,9 +167,10 @@ Untuk merekam video iklan tanpa mengubah data, tambahkan `?fire=<diduga>,<terkon
 ## Batasan yang disengaja
 
 - Satu oracle terpusat. Rencana produksi: beberapa oracle independen dan masa sanggah untuk pemegang izin.
-- Di produksi, jaminan disimpan sebagai bank garansi, bukan kripto. Chain berperan sebagai catatan dan pemicu; bank mencairkan dana ke BPDLH begitu melihat event `BondSlashed`.
+- Jaminan demo berupa MON testnet. Di produksi, jaminan disimpan on-chain sebagai stablecoin Rupiah atau bank garansi yang ditokenisasi (lihat Kenapa Monad).
+- Setiap kebakaran terkonfirmasi memotong 20% dari *sisa* jaminan (10 → 8 → 6,4 MON). Di produksi (P1), potongan tetap 20% dari kewajiban jaminan awal (*initial required bond*), dan pemegang izin wajib top-up dalam tenggat waktu tertentu.
 - Yang masuk ke chain publik hanya hash, nomor sel H3, waktu, dan keputusan. Data mentah dan peta izin tetap di server pemerintah.
-- Di demo ini deployer berperan sebagai regulator. Peran regulator di dalam kontrak masuk roadmap.
+- Di demo ini `registerConcession` bisa dipanggil dompet mana pun, dan deployer berperan sebagai regulator. Di produksi (P1), fungsi ini dikunci dengan modifier `onlyRegulator`, jadi hanya dompet Kemenhut yang bisa mendaftarkan izin atas nama pemegangnya.
 
 ## Kunci publik hanya-baca
 
