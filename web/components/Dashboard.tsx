@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { FIREBOND, REPO_URL, STATUS, addressUrl, formatIdr, formatMon } from "@/lib/chain";
+import { FIREBOND, REPO_URL, STATUS, addressUrl, formatIdr, formatMon, formatWib } from "@/lib/chain";
 import { LOCALE, useLang } from "@/lib/i18n";
 import type { DashboardData } from "@/lib/types";
 import type { Flare } from "./FlameLayer";
@@ -77,6 +77,10 @@ export default function Dashboard() {
     [load],
   );
 
+  // Observasi satelit paling akhir dari batch NASA (bukan berkas demo), untuk menunjukkan kesegaran data.
+  const latestFirms = data?.batches
+    .filter((b) => !b.source.startsWith("file:"))
+    .reduce<{ toUnix: number } | null>((max, b) => (!max || b.toUnix > max.toUnix ? b : max), null);
   const concessionName = (id: number) => data?.concessions.find((c) => c.id === id)?.name ?? t.permitFallback(id);
   const suspected = incidents.filter((i) => i.status === STATUS.Suspected).length;
   const confirmed = incidents.filter((i) => i.status === STATUS.Confirmed).length;
@@ -89,6 +93,13 @@ export default function Dashboard() {
         <div className="dash-title">
           <h1>{t.dashTitle}</h1>
           <p>{t.dashSubtitle}</p>
+          <p className="data-source">
+            {t.dataSourceLabel}:{" "}
+            <a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noreferrer">
+              {t.dataSource}
+            </a>
+            {latestFirms ? ` · ${t.lastFetch(formatWib(latestFirms.toUnix, locale))}` : null}
+          </p>
         </div>
         <div className="stat-groups">
           <div className="stat-group">
@@ -232,6 +243,7 @@ export default function Dashboard() {
               {t.source}
             </a>
             <span className="muted">Monad Blitz Jogja 2026</span>
+            <span className="muted ack">{t.nasaAck}</span>
           </footer>
         </aside>
       </main>

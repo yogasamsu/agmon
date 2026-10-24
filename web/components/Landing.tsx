@@ -40,6 +40,9 @@ export default function Landing() {
           <p className="kicker">{t.heroEyebrow}</p>
           <h1>{t.heroTitle}</h1>
           <p className="lead">{t.heroBody}</p>
+          <p className="name-note">
+            <strong>{t.heroNameTitle}</strong> {t.heroName}
+          </p>
           <div className="cta-row">
             <Link href="/dashboard" className="btn primary">
               {t.ctaDashboard}
@@ -69,6 +72,12 @@ export default function Landing() {
             </div>
           </dl>
           <p className="scale-note">{t.demoScale(formatIdr(10n ** 18n, t.idrUnits, LOCALE[lang]))}</p>
+          <p className="scale-note">
+            {t.dataSourceLabel}:{" "}
+            <a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noreferrer">
+              {t.dataSource}
+            </a>
+          </p>
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img className="land-mascot" src="/agmon-mascot.png" alt="AgMon, a Komodo dragon with a burning tail" />

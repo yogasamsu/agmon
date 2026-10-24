@@ -297,6 +297,58 @@ abbr[title] {
   color: var(--red);
 }
 
+.data-source {
+  margin-top: 4px;
+  color: var(--ash);
+  font-size: 11px;
+}
+
+.name-note {
+  max-width: 60ch;
+  margin-top: 14px !important;
+  padding: 12px 14px;
+  border-left: 3px solid var(--fire);
+  border-radius: 0 10px 10px 0;
+  background: var(--cream);
+  color: var(--char);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.name-note strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--fire);
+}
+
+.loss-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fef2f2;
+}
+
+.loss-label {
+  color: var(--red);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.loss-value {
+  color: var(--red);
+  font-family: var(--mono);
+  font-size: 22px;
+}
+
+.foot .ack {
+  flex-basis: 100%;
+  font-size: 11px;
+}
+
 /* ---------- Ringkasan nasional ---------- */
 
 .insights {

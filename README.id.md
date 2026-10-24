@@ -164,6 +164,13 @@ Kontrak hanya menerima satu insiden per sel dalam 24 jam, jadi data demo hanya b
 
 Untuk merekam video iklan tanpa mengubah data, tambahkan `?fire=<diduga>,<terkonfirmasi>` di URL, misalnya `?fire=6,2`. Parameter ini hanya mengubah efek api.
 
+## Sumber data
+
+- **Titik api:** NASA FIRMS, VIIRS 375 m hampir waktu nyata dari satelit Suomi NPP, NOAA-20, dan NOAA-21, ditarik untuk seluruh Indonesia (https://firms.modaps.eosdis.nasa.gov/). *We acknowledge the use of data and/or imagery from NASA's Fire Information for Resource Management System (FIRMS), part of NASA's Earth Science Data and Information System (ESDIS).*
+- **Estimasi kerugian ekonomi per titik api** (indikatif, batas atas, belum termasuk eksternalitas): satu titik api VIIRS sekitar 14 ha (piksel 375 m) × US$5.520/ha × kurs Rp16.000/US$ (diatur lewat `NEXT_PUBLIC_IDR_PER_USD`), sekitar Rp1,2 miliar. Angka US$5.520/ha berasal dari estimasi Bank Dunia sekitar US$5,2 miliar kerugian akibat kebakaran 2019 (Indonesia Economic Quarterly, Des 2019; belum memasukkan dampak kesehatan dan pendidikan jangka panjang) dibagi sekitar 942.000 ha terbakar. Total nasional menghitung sekali titik api yang berjarak sekitar 400 m pada hari yang sama, karena satu api sering terlihat beberapa satelit.
+- **Batas provinsi:** Peta Dasar BAKOSURTANAL, 34 provinsi, sebelum pemekaran Papua 2022 (lewat github.com/ans-4175/peta-indonesia-geojson).
+- **Peta dasar:** Esri World Imagery.
+
 ## Batasan yang disengaja
 
 - Satu oracle terpusat. Rencana produksi: beberapa oracle independen dan masa sanggah untuk pemegang izin.

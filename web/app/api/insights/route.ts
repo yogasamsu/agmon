@@ -63,7 +63,22 @@ async function compute(): Promise<Insights> {
   };
 
   const byProvince = new Map<string, { count: number; last24: number; prev24: number }>();
-  type Cluster = { count: number; last24: number; prev24: number; sumFrp24: number; maxFrp: number; inside: number; sumLat: number; sumLng: number };
+  type Cluster = {
+    count: number;
+    last24: number;
+    prev24: number;
+    sumFrp24: number;
+    maxFrp: number;
+    inside: number;
+    sumLat: number;
+    sumLng: number;
+    unique24: Set<string>;
+  };
+  // Satu api sering terdeteksi beberapa satelit dalam selisih menit. Untuk estimasi kerugian,
+  // titik dalam jarak sekitar 400 m pada hari (UTC) yang sama dihitung sekali.
+  const uniqueKey = (r: Row) =>
+    `${Math.round(r.lat / 0.004)},${Math.round(r.lng / 0.004)},${Math.floor(r.observed_at_unix / 86400)}`;
+  const unique48 = new Set<string>();
   const clusters = new Map<string, Cluster>();
   let last24 = 0;
 
@@ -79,7 +94,19 @@ async function compute(): Promise<Insights> {
       byProvince.set(name, p);
     }
     const key = `${Math.floor(r.lng / CLUSTER_DEG)},${Math.floor(r.lat / CLUSTER_DEG)}`;
-    const c = clusters.get(key) ?? { count: 0, last24: 0, prev24: 0, sumFrp24: 0, maxFrp: 0, inside: 0, sumLat: 0, sumLng: 0 };
+    const uk = uniqueKey(r);
+    unique48.add(uk);
+    const c = clusters.get(key) ?? {
+      count: 0,
+      last24: 0,
+      prev24: 0,
+      sumFrp24: 0,
+      maxFrp: 0,
+      inside: 0,
+      sumLat: 0,
+      sumLng: 0,
+      unique24: new Set<string>(),
+    };
     c.count++;
     c.sumLat += r.lat;
     c.sumLng += r.lng;
@@ -88,6 +115,7 @@ async function compute(): Promise<Insights> {
     if (recent) {
       c.last24++;
       c.sumFrp24 += r.frp;
+      c.unique24.add(uk);
     } else c.prev24++;
     clusters.set(key, c);
   }
@@ -104,6 +132,7 @@ async function compute(): Promise<Insights> {
         lng,
         province: regionOf(lng, lat),
         last24: c.last24,
+        unique24: c.unique24.size,
         prev24: c.prev24,
         maxFrp: Math.round(c.maxFrp),
         inside: c.inside,
@@ -122,6 +151,7 @@ async function compute(): Promise<Insights> {
   return {
     generatedAt: now,
     total48h: rows.length,
+    unique48h: unique48.size,
     last24,
     prev24: rows.length - last24,
     provinces: [...byProvince.entries()]

@@ -62,6 +62,8 @@ export type DashboardData = {
 export type Insights = {
   generatedAt: number;
   total48h: number;
+  /** Titik unik (sekitar 400 m per hari) untuk estimasi kerugian. */
+  unique48h: number;
   last24: number;
   prev24: number;
   provinces: { name: string; count: number; last24: number; prev24: number }[];
@@ -70,6 +72,7 @@ export type Insights = {
     lng: number;
     province: string;
     last24: number;
+    unique24: number;
     prev24: number;
     maxFrp: number;
     inside: number;

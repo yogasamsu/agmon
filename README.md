@@ -164,6 +164,13 @@ The contract accepts one incident per cell per 24 hours, so the demo data works 
 
 To record the ad video without touching data, append `?fire=<suspected>,<confirmed>` to the URL, for example `?fire=6,2`. It changes only the fire effect.
 
+## Data sources
+
+- **Hotspots:** NASA FIRMS, VIIRS 375 m near real-time from Suomi NPP, NOAA-20, and NOAA-21, pulled for all of Indonesia (https://firms.modaps.eosdis.nasa.gov/). *We acknowledge the use of data and/or imagery from NASA's Fire Information for Resource Management System (FIRMS), part of NASA's Earth Science Data and Information System (ESDIS).*
+- **Estimated economic loss per hotspot** (indicative upper bound, no externalities): one VIIRS hotspot is about 14 ha (a 375 m pixel) × US$5,520/ha × IDR 16,000/US$ (rate set by `NEXT_PUBLIC_IDR_PER_USD`), about IDR 1.2 billion. US$5,520/ha comes from the World Bank estimate of about US$5.2 billion in losses from the 2019 fires (Indonesia Economic Quarterly, Dec 2019; it excludes longer-term health and education effects) divided by about 942,000 ha burned. National totals count hotspots within about 400 m on the same day once, because several satellites often see the same fire.
+- **Province boundaries:** Peta Dasar BAKOSURTANAL, 34 provinces, before the 2022 Papua split (via github.com/ans-4175/peta-indonesia-geojson).
+- **Base map:** Esri World Imagery.
+
 ## Deliberate limits
 
 - One centralised oracle. Production plan: several independent oracles and an objection period for the permit holder.

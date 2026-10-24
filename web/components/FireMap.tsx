@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { CircleMarker, GeoJSON, LayersControl, MapContainer, Popup, TileLayer, useMap } from "react-leaflet";
 import { STATUS, formatWib } from "@/lib/chain";
 import { LOCALE, useLang } from "@/lib/i18n";
+import { LOSS_PER_HOTSPOT_IDR, formatRupiah } from "@/lib/loss";
 import type { ConcessionView, HotspotView, IncidentView } from "@/lib/types";
 import FlameLayer, { type Flare, type FlameKind } from "./FlameLayer";
 
@@ -133,6 +134,8 @@ export default function FireMap({ concessions, hotspots, incidents, focusId, onS
             {t.confidence}: {t.confidenceLevels[h.confidence] ?? h.confidence} · FRP {h.frp} MW
             <br />
             {h.concessionId ? t.insidePermit(h.concessionId) : t.outsidePermit}
+            <br />
+            {t.popupLoss}: ±{formatRupiah(LOSS_PER_HOTSPOT_IDR, t.idrUnits, LOCALE[lang])}
             {h.incidentId ? (
               <>
                 <br />

@@ -88,9 +88,25 @@ const en = {
   outsidePermit: "Outside any registered permit",
   timeZone: "WIB",
   demoScale: (rate: string) => `Demo scale: 1 testnet MON stands for ${rate}`,
-  idrUnits: { billion: "billion", million: "million", prefix: "IDR " },
+  idrUnits: { trillion: "trillion", billion: "billion", million: "million", prefix: "IDR " },
 
   navHome: "Home",
+  heroNameTitle: "Why \u201cAgMon\u201d?",
+  heroName:
+    "Agni + Monad. Agni is the Hindu god of fire, and the namesake of Manggala Agni, the forest fire brigade that verifies every incident in AgMon. Monad is the blockchain that makes each fire's consequence public and immediate, with a record no one can quietly change.",
+  dataSourceLabel: "Hotspot data",
+  dataSource: "NASA FIRMS · VIIRS 375 m (Suomi NPP, NOAA-20, NOAA-21), near real-time",
+  lastFetch: (time: string) => `latest satellite observation ${time}`,
+  nasaAck:
+    "We acknowledge the use of data from NASA's Fire Information for Resource Management System (FIRMS), part of NASA's Earth Science Data and Information System (ESDIS).",
+  lossTitle: "Estimated economic loss, last 48 h",
+  lossBasis: (n: string) => `from ${n} unique hotspots`,
+  lossPerHotspot: (v: string) => `about ${v} per hotspot`,
+  lossNote: (usdHa: string, rate: string) =>
+    `Indicative upper bound. One VIIRS hotspot is about 14 ha (a 375 m pixel) × US$${usdHa}/ha (World Bank: US$5.2 billion for about 942,000 ha burned in 2019) × IDR ${rate}/US$. Excludes externalities such as long-term health effects and carbon emissions.`,
+  lossSource: "World Bank, Dec 2019",
+  clusterLoss: (v: string) => `est. loss ${v}`,
+  popupLoss: "Est. economic loss",
   dashTitle: "Fire accountability dashboard",
   dashSubtitle: "Live on Monad testnet · NASA FIRMS hotspots for all of Indonesia · pilot permit in Ketapang, West Kalimantan (fictional)",
   groupFires: "Hotspots",
@@ -115,7 +131,7 @@ const en = {
   heroEyebrow: "Monad Blitz Jogja 2026 · Forest fire accountability",
   heroTitle: "When a forest burns, the permit holder pays for its recovery.",
   heroBody:
-    "AgMon ties every satellite hotspot to the permit holder whose land it falls on, records the evidence on Monad, and releases 20% of their fire bond to restoration as soon as Manggala Agni confirms the fire in the field.",
+    "AgMon ties every satellite hotspot to the permit holder whose land it falls on, records the evidence on Monad, and releases 20% of their fire bond to restoration as soon as Manggala Agni, the forest fire brigade, confirms the fire in the field.",
   ctaDashboard: "Open the live dashboard",
   ctaContract: "View the contract",
   heroLive: "Live on Monad testnet",
@@ -145,7 +161,7 @@ const en = {
   after: [
     "Ministry registers the permit and its fire bond",
     "Satellites detect every hotspot inside the permit",
-    "Manggala Agni verifies in the field",
+    "Manggala Agni (the Ministry of Forestry's forest fire brigade) or forest police verify in the field",
     "20% of the bond is released to restoration",
     "Anyone can audit the record on Monad",
   ] as readonly string[],
@@ -155,7 +171,7 @@ const en = {
   steps: [
     ["Register and bond", "The Ministry of Forestry registers each permit boundary as hexagonal map cells: one cell, one permit holder, overlaps rejected. The holder deposits a fire bond as a permit condition."],
     ["Detect", "Every 30 minutes the oracle pulls NASA satellite hotspots for all of Indonesia and stores their fingerprint on Monad. A hotspot inside a permit becomes a Suspected incident."],
-    ["Verify", "A Manggala Agni officer checks the site and confirms or rejects. The satellite detects; a person decides."],
+    ["Verify", "A Manggala Agni officer (the Ministry of Forestry's forest fire brigade) or a forest police officer checks the site and confirms or rejects. The satellite detects; a person decides."],
     ["Release", "Confirmation sends 20% of the bond to the restoration fund in the same transaction. No meeting, no delay."],
     ["Audit", "Anyone can re-hash the stored data and compare it with Monad. Change one number and the check fails."],
   ] as readonly (readonly [string, string])[],
@@ -268,9 +284,25 @@ const id: Dict = {
   outsidePermit: "Di luar izin terdaftar",
   timeZone: "WIB",
   demoScale: (rate) => `Skala demo: 1 MON testnet mewakili ${rate}`,
-  idrUnits: { billion: "miliar", million: "juta", prefix: "Rp" },
+  idrUnits: { trillion: "triliun", billion: "miliar", million: "juta", prefix: "Rp" },
 
   navHome: "Beranda",
+  heroNameTitle: "Mengapa \u201cAgMon\u201d?",
+  heroName:
+    "Agni + Monad. Agni adalah dewa api dalam mitologi Hindu, sekaligus nama Manggala Agni, brigade pengendalian kebakaran hutan yang memverifikasi setiap insiden di AgMon. Monad adalah blockchain yang membuat konsekuensi setiap kebakaran tercatat terbuka dan langsung berlaku, tanpa ada yang bisa mengubahnya diam-diam.",
+  dataSourceLabel: "Data titik api",
+  dataSource: "NASA FIRMS · VIIRS 375 m (Suomi NPP, NOAA-20, NOAA-21), hampir waktu nyata",
+  lastFetch: (time) => `observasi satelit terbaru ${time}`,
+  nasaAck:
+    "Data titik api berasal dari Fire Information for Resource Management System (FIRMS) milik NASA, bagian dari Earth Science Data and Information System (ESDIS).",
+  lossTitle: "Estimasi kerugian ekonomi, 48 jam terakhir",
+  lossBasis: (n) => `dari ${n} titik api unik`,
+  lossPerHotspot: (v) => `sekitar ${v} per titik api`,
+  lossNote: (usdHa, rate) =>
+    `Indikatif, batas atas. Satu titik api VIIRS sekitar 14 ha (piksel 375 m) × US$${usdHa}/ha (Bank Dunia: US$5,2 miliar untuk sekitar 942.000 ha terbakar pada 2019) × kurs Rp${rate}/US$. Belum termasuk eksternalitas seperti dampak kesehatan jangka panjang dan emisi karbon.`,
+  lossSource: "Bank Dunia, Des 2019",
+  clusterLoss: (v) => `est. kerugian ${v}`,
+  popupLoss: "Estimasi kerugian ekonomi",
   dashTitle: "Dasbor akuntabilitas kebakaran",
   dashSubtitle: "Live di Monad testnet · titik api NASA FIRMS seluruh Indonesia · izin pilot di Ketapang, Kalimantan Barat (fiktif)",
   groupFires: "Titik api",
@@ -295,7 +327,7 @@ const id: Dict = {
   heroEyebrow: "Monad Blitz Jogja 2026 · Akuntabilitas kebakaran hutan",
   heroTitle: "Hutan terbakar, pemegang izin menanggung pemulihannya.",
   heroBody:
-    "AgMon mengikat setiap titik api satelit ke pemegang izin pemilik lahannya, mencatat buktinya di Monad, dan mencairkan 20% jaminan kebakarannya ke dana restorasi begitu Manggala Agni mengonfirmasi di lapangan.",
+    "AgMon mengikat setiap titik api satelit ke pemegang izin pemilik lahannya, mencatat buktinya di Monad, dan mencairkan 20% jaminan kebakarannya ke dana restorasi begitu Manggala Agni, brigade pemadam kebakaran hutan, mengonfirmasi di lapangan.",
   ctaDashboard: "Buka dasbor live",
   ctaContract: "Lihat kontrak",
   heroLive: "Berjalan di Monad testnet",
@@ -325,7 +357,7 @@ const id: Dict = {
   after: [
     "Kemenhut mendaftarkan izin dan jaminan kebakarannya",
     "Satelit mendeteksi setiap titik api di dalam izin",
-    "Manggala Agni memverifikasi di lapangan",
+    "Manggala Agni (brigade pemadam kebakaran hutan Kemenhut) atau polisi hutan memverifikasi di lapangan",
     "20% jaminan dicairkan ke dana restorasi",
     "Siapa pun bisa mengaudit catatannya di Monad",
   ],
@@ -335,7 +367,7 @@ const id: Dict = {
   steps: [
     ["Daftar dan setor jaminan", "Kemenhut mendaftarkan batas setiap izin sebagai sel peta heksagonal: satu sel untuk satu pemegang izin, dan izin yang tumpang tindih ditolak. Pemegang izin menyetor jaminan kebakaran sebagai syarat izin."],
     ["Deteksi", "Setiap 30 menit oracle menarik titik api satelit NASA untuk seluruh Indonesia dan menyimpan sidik jarinya di Monad. Titik api di dalam izin menjadi insiden Diduga."],
-    ["Verifikasi", "Petugas Manggala Agni memeriksa lokasi lalu mengonfirmasi atau menolak. Satelit mendeteksi, manusia yang memutuskan."],
+    ["Verifikasi", "Petugas Manggala Agni (brigade pemadam kebakaran hutan Kemenhut) atau polisi hutan memeriksa lokasi lalu mengonfirmasi atau menolak. Satelit mendeteksi, manusia yang memutuskan."],
     ["Cairkan", "Konfirmasi mengirim 20% jaminan ke dana restorasi dalam transaksi yang sama, tanpa rapat dan tanpa penundaan."],
     ["Audit", "Siapa pun bisa menghitung ulang sidik jari data dan membandingkannya dengan Monad. Ubah satu angka, hasilnya langsung tidak cocok."],
   ],
