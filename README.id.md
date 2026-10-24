@@ -156,7 +156,7 @@ Setiap kali `FireBond.sol` diubah, jalankan `forge build` lalu `node scripts/exp
 ## Naskah demo
 
 1. Buka aplikasi live di `/dashboard`. Peta menampilkan izin di Ketapang, Kalimantan Barat, beserta titik apinya. Api di tepi bawah layar ikut naik sesuai jumlah insiden Diduga.
-2. Sambungkan MetaMask berisi dompet verifikator, lampirkan foto bila ada, lalu tekan **Konfirmasi kebakaran**. Jaminan turun dari 2 ke 1,6 MON (tampil Rp1 miliar menjadi Rp800 juta pada skala demo), dana restorasi naik 0,4 MON, api menyala sesaat, dan bekas gosong di bawah layar menebal.
+2. Sambungkan MetaMask berisi dompet verifikator, lampirkan foto bila ada, lalu tekan **Konfirmasi kebakaran**. Jaminan turun 20%, misalnya dari 20 ke 16 MON (tampil Rp10 miliar menjadi Rp8 miliar pada skala demo), dana restorasi naik sebesar potongan itu, api menyala sesaat, dan bekas gosong di bawah layar menebal.
 3. Buka transaksinya di explorer.
 4. Tekan **Cek integritas** pada batch: hasilnya **Cocok**. Ubah satu nilai `frp` di table editor Supabase, lalu cek lagi: **Tidak cocok**.
 
@@ -175,7 +175,7 @@ Untuk merekam video iklan tanpa mengubah data, tambahkan `?fire=<diduga>,<terkon
 
 - Satu oracle terpusat. Rencana produksi: beberapa oracle independen dan masa sanggah untuk pemegang izin.
 - Jaminan demo berupa MON testnet. Di produksi, jaminan disimpan on-chain sebagai stablecoin Rupiah atau bank garansi yang ditokenisasi (lihat Kenapa Monad).
-- Setiap kebakaran terkonfirmasi memotong 20% dari *sisa* jaminan (2 → 1,6 → 1,28 MON). Di produksi (P1), potongan tetap 20% dari kewajiban jaminan awal (*initial required bond*), dan pemegang izin wajib top-up dalam tenggat waktu tertentu.
+- Setiap kebakaran terkonfirmasi memotong 20% dari *sisa* jaminan (20 → 16 → 12,8 MON). Di produksi (P1), potongan tetap 20% dari kewajiban jaminan awal (*initial required bond*), dan pemegang izin wajib top-up dalam tenggat waktu tertentu.
 - Yang masuk ke chain publik hanya hash, nomor sel H3, waktu, dan keputusan. Data mentah dan peta izin tetap di server pemerintah.
 - Di demo ini `registerConcession` bisa dipanggil dompet mana pun, dan deployer berperan sebagai regulator. Di produksi (P1), fungsi ini dikunci dengan modifier `onlyRegulator`, jadi hanya dompet Kemenhut yang bisa mendaftarkan izin atas nama pemegangnya.
 
