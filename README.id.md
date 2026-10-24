@@ -86,7 +86,7 @@ Isi `.env.local` dengan nilai publik yang hanya bisa membaca di bawah ini, lalu 
 ```
 SUPABASE_URL=https://nvnqjhfnhkktgrawecyq.supabase.co
 SUPABASE_ANON_KEY=<lihat bagian "Kunci publik hanya-baca" di bawah>
-NEXT_PUBLIC_FIREBOND_ADDRESS=<alamat kontrak dari tabel di atas>
+NEXT_PUBLIC_FIREBOND_ADDRESS=0x9678b78624706d383b606412A37289879cE8bC8A
 ```
 
 Anon key hanya bisa membaca. Row level security menolak semua penulisan (diuji 24 Okt 2026). Tekan **Cek integritas** pada batch mana pun untuk memeriksa datanya sendiri.
@@ -184,7 +184,7 @@ Untuk merekam video iklan tanpa mengubah data, tambahkan `?fire=<diduga>,<terkon
 Khusus Jalur A. Hanya bisa membaca karena dibatasi row level security.
 
 ```
-SUPABASE_ANON_KEY=TBD
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52bnFqaGZuaGtrdGdyYXdlY3lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI4MDgzODksImV4cCI6MjEwODM4NDM4OX0._YWW2t1nO1cwRI0Fsg6Knu_N82w83VUNPH-7KknAQUc
 ```
 
 ## Lisensi

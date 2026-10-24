@@ -86,7 +86,7 @@ Fill `.env.local` with the public, read-only values below, then `npm run dev` an
 ```
 SUPABASE_URL=https://nvnqjhfnhkktgrawecyq.supabase.co
 SUPABASE_ANON_KEY=<see "Public read-only key" below>
-NEXT_PUBLIC_FIREBOND_ADDRESS=<contract address from the table above>
+NEXT_PUBLIC_FIREBOND_ADDRESS=0x9678b78624706d383b606412A37289879cE8bC8A
 ```
 
 The anon key can only read. Row level security rejects every write (verified on 24 Oct 2026). Press **Check integrity** on any batch to verify the data yourself.
@@ -184,7 +184,7 @@ To record the ad video without touching data, append `?fire=<suspected>,<confirm
 For Path A only. Read-only by row level security.
 
 ```
-SUPABASE_ANON_KEY=TBD
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52bnFqaGZuaGtrdGdyYXdlY3lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI4MDgzODksImV4cCI6MjEwODM4NDM4OX0._YWW2t1nO1cwRI0Fsg6Knu_N82w83VUNPH-7KknAQUc
 ```
 
 ## License

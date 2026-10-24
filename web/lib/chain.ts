@@ -75,12 +75,12 @@ export function formatIdr(wei: string | bigint, units: IdrUnits, locale = "id-ID
 }
 
 /**
- * Peta api NASA FIRMS. Tanpa argumen: Indonesia, 48 jam terakhir. Dengan koordinat dan waktu:
+ * Peta api NASA FIRMS. Tanpa argumen: seluruh Indonesia, 24 jam terakhir. Dengan koordinat dan waktu:
  * tanggal observasi (UTC) dan posisi titik itu, supaya siapa pun bisa mencocokkan data kita.
  */
 export function firmsMapUrl(point?: { lat: number; lng: number; unix: number }): string {
   const base = "https://firms.modaps.eosdis.nasa.gov/map/";
-  if (!point) return `${base}#d:48hrs;@117.5,-2.0,5.0z`;
+  if (!point) return `${base}#d:24hrs;@125.3,-1.4,4.4z`;
   const day = new Date(point.unix * 1000).toISOString().slice(0, 10);
   return `${base}#d:${day};@${point.lng.toFixed(4)},${point.lat.toFixed(4)},13.0z`;
 }
