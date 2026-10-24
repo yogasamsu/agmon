@@ -49,9 +49,33 @@ export type DashboardData = {
   fireBond: string;
   fundAddress: string | null;
   fundBalanceWei: string;
+  /** Saldo kontrak FireBond: jaminan semua izin yang sedang ditahan. */
+  bondPoolWei: string;
   batchCount: number;
+  hotspotCount48h: number;
   concessions: ConcessionView[];
   incidents: IncidentView[];
   hotspots: HotspotView[];
   batches: BatchView[];
+};
+
+export type Insights = {
+  generatedAt: number;
+  total48h: number;
+  last24: number;
+  prev24: number;
+  provinces: { name: string; count: number; last24: number; prev24: number }[];
+  clusters: {
+    lat: number;
+    lng: number;
+    province: string;
+    last24: number;
+    prev24: number;
+    maxFrp: number;
+    inside: number;
+    isNew: boolean;
+    growing: boolean;
+    highFrp: boolean;
+    score: number;
+  }[];
 };

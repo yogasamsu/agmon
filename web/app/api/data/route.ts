@@ -4,6 +4,19 @@ import { FIREBOND, publicClient } from "@/lib/chain";
 import { supabase } from "@/lib/supabase";
 import type { DashboardData } from "@/lib/types";
 
+const MULTICALL3 = {
+  address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+  abi: [
+    {
+      type: "function",
+      name: "getEthBalance",
+      stateMutability: "view",
+      inputs: [{ name: "addr", type: "address" }],
+      outputs: [{ name: "balance", type: "uint256" }],
+    },
+  ],
+} as const;
+
 export const dynamic = "force-dynamic";
 
 /**
@@ -37,7 +50,8 @@ async function load(): Promise<DashboardData> {
   {
     const db = supabase();
     const hotspotCols = "id,lat,lng,confidence,frp,observed_at_unix,concession_id,incident_id,batch_id";
-    const [concessionRes, incidentRes, hotspotRes, insideRes, batchRes] = await Promise.all([
+    const since48h = Math.floor(Date.now() / 1000) - 48 * 3600;
+    const [concessionRes, incidentRes, hotspotRes, insideRes, batchRes, countRes] = await Promise.all([
       db.from("concessions").select("id,name,owner,geojson,register_tx").order("id"),
       db
         .from("incidents")
@@ -54,8 +68,10 @@ async function load(): Promise<DashboardData> {
         .order("observed_at_unix", { ascending: false })
         .limit(500),
       db.from("batches").select("*").order("id", { ascending: false }).limit(20),
+      db.from("hotspots").select("id", { count: "exact", head: true }).gte("observed_at_unix", since48h),
     ]);
-    for (const res of [concessionRes, incidentRes, hotspotRes, insideRes, batchRes]) if (res.error) throw res.error;
+    for (const res of [concessionRes, incidentRes, hotspotRes, insideRes, batchRes, countRes]) if (res.error) throw res.error;
+    const count48h = countRes.count;
     const hotspotRows = new Map<number, NonNullable<typeof hotspotRes.data>[number]>();
     for (const h of [...insideRes.data!, ...hotspotRes.data!]) hotspotRows.set(h.id, h);
 
@@ -66,6 +82,8 @@ async function load(): Promise<DashboardData> {
       ? Promise.all([
           publicClient.readContract({ address: FIREBOND, abi: fireBondAbi, functionName: "restorationFund" }),
           publicClient.readContract({ address: FIREBOND, abi: fireBondAbi, functionName: "batchCount" }),
+          // Saldo kontrak = kolam jaminan yang sedang ditahan untuk semua izin.
+          publicClient.readContract({ ...MULTICALL3, functionName: "getEthBalance", args: [FIREBOND] }),
         ])
       : null;
     const concessions = await Promise.all(
@@ -119,18 +137,24 @@ async function load(): Promise<DashboardData> {
     let fundAddress: string | null = null;
     let fundBalanceWei = "0";
     let batchCount = batchRes.data!.length;
+    let bondPoolWei = "0";
     if (chainMeta) {
-      const [fund, batches] = await chainMeta;
+      const [fund, batches, pool] = await chainMeta;
+      bondPoolWei = pool.toString();
       fundAddress = fund;
       batchCount = Number(batches);
-      fundBalanceWei = (await publicClient.getBalance({ address: fund })).toString();
+      fundBalanceWei = (
+        await publicClient.readContract({ ...MULTICALL3, functionName: "getEthBalance", args: [fund] })
+      ).toString();
     }
 
     const data: DashboardData = {
       fireBond: FIREBOND,
       fundAddress,
       fundBalanceWei,
+      bondPoolWei,
       batchCount,
+      hotspotCount48h: count48h ?? 0,
       concessions,
       incidents,
       hotspots: [...hotspotRows.values()].map((h) => ({

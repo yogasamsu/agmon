@@ -226,6 +226,216 @@ abbr[title] {
   color: var(--red);
 }
 
+/* ---------- Kepala dasbor ---------- */
+
+.dash-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+  padding: 4px 20px 14px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.dash-title h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.dash-title p {
+  max-width: 58ch;
+  color: var(--ash);
+  font-size: 12px;
+}
+
+.stat-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.stat-group {
+  padding: 10px 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+}
+
+.stat-group h2 {
+  margin: 0 0 6px;
+  color: var(--fire);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.bond-group {
+  background: var(--cream);
+  border-color: var(--line);
+}
+
+.bond-group .stats {
+  align-items: center;
+}
+
+.flow-arrow {
+  color: var(--fire);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.bond-group .scale-note {
+  max-width: 44ch;
+  margin-top: 6px;
+}
+
+.stats dd.red,
+.stats dd.red a {
+  color: var(--red);
+}
+
+/* ---------- Ringkasan nasional ---------- */
+
+.insights {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+
+.insights h2 {
+  margin: 0;
+}
+
+.insights h3 {
+  margin: 8px 0 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.clusters {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.clusters button {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  background: var(--white);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.clusters button:hover {
+  border-color: var(--fire);
+  background: var(--cream);
+}
+
+.cluster-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.tag {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--line-soft);
+  color: var(--ash);
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tag.ember {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.tag.red {
+  background: var(--red);
+  color: var(--white);
+}
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bars li {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.bar-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.bar-track {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--line-soft);
+}
+
+.bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ember), var(--fire));
+}
+
+.bar-value {
+  font-size: 11px;
+}
+
+.link-btn {
+  align-self: flex-start;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  color: var(--fire) !important;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.card-head.clickable {
+  cursor: pointer;
+}
+
 .banner {
   padding: 10px 20px;
 }

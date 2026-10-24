@@ -29,7 +29,10 @@ type Props = {
   focusId: number | null;
   onSelectConcession: (id: number) => void;
   flare: Flare;
+  focusPoint: FocusPoint | null;
 };
+
+export type FocusPoint = { lat: number; lng: number; zoom: number; at: number };
 
 function hotspotKind(h: HotspotView, statusById: Map<number, number>): FlameKind {
   if (h.incidentId) {
@@ -41,9 +44,22 @@ function hotspotKind(h: HotspotView, statusById: Map<number, number>): FlameKind
   return h.concessionId ? "inside" : "outside";
 }
 
-function FocusController({ concessions, focusId }: { concessions: ConcessionView[]; focusId: number | null }) {
+function FocusController({
+  concessions,
+  focusId,
+  focusPoint,
+}: {
+  concessions: ConcessionView[];
+  focusId: number | null;
+  focusPoint: FocusPoint | null;
+}) {
   const map = useMap();
   const fitted = useRef(false);
+
+  useEffect(() => {
+    if (!focusPoint) return;
+    map.flyTo([focusPoint.lat, focusPoint.lng], focusPoint.zoom, { duration: 0.9 });
+  }, [focusPoint, map]);
 
   useEffect(() => {
     if (fitted.current || concessions.length === 0) return;
@@ -61,7 +77,7 @@ function FocusController({ concessions, focusId }: { concessions: ConcessionView
   return null;
 }
 
-export default function FireMap({ concessions, hotspots, incidents, focusId, onSelectConcession, flare }: Props) {
+export default function FireMap({ concessions, hotspots, incidents, focusId, onSelectConcession, flare, focusPoint }: Props) {
   const { lang, t } = useLang();
   const statusById = useMemo(() => new Map(incidents.map((i) => [i.id, i.status])), [incidents]);
   const flames = useMemo(
@@ -130,7 +146,7 @@ export default function FireMap({ concessions, hotspots, incidents, focusId, onS
       ))}
 
       <FlameLayer points={flames} flare={flare} />
-      <FocusController concessions={concessions} focusId={focusId} />
+      <FocusController concessions={concessions} focusId={focusId} focusPoint={focusPoint} />
     </MapContainer>
   );
 }

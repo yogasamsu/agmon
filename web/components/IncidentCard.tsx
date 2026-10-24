@@ -3,14 +3,19 @@
 import { useState } from "react";
 import { keccak256, zeroHash, type Hex } from "viem";
 import { fireBondAbi } from "@/lib/abi";
-import { FIREBOND, STATUS, formatWib, publicClient, shortHash, txUrl } from "@/lib/chain";
+import { FIREBOND, STATUS, formatWib, monad, publicClient, shortHash, txUrl } from "@/lib/chain";
 import { LOCALE, useLang } from "@/lib/i18n";
 import type { IncidentView } from "@/lib/types";
 import { NoWalletError, connectWallet } from "@/lib/wallet";
 
-type Props = { incident: IncidentView; concessionName: string; onDecided: (id: number, status: number) => void };
+type Props = {
+  incident: IncidentView;
+  concessionName: string;
+  onDecided: (id: number, status: number) => void;
+  onFocus: () => void;
+};
 
-export default function IncidentCard({ incident, concessionName, onDecided }: Props) {
+export default function IncidentCard({ incident, concessionName, onDecided, onFocus }: Props) {
   const { lang, t } = useLang();
   const [photo, setPhoto] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
@@ -33,16 +38,28 @@ export default function IncidentCard({ incident, concessionName, onDecided }: Pr
       const { wallet, account } = await connectWallet();
       // Foto tidak diunggah ke mana pun. Yang dicatat hanya sidik jarinya.
       const evidence: Hex = photo ? keccak256(new Uint8Array(await photo.arrayBuffer())) : zeroHash;
-      const { request } = await publicClient.simulateContract({
+      const call = {
         account,
         address: FIREBOND,
         abi: fireBondAbi,
         functionName,
-        args: [BigInt(incident.id), evidence],
-      });
+        args: [BigInt(incident.id), evidence] as const,
+      };
+      // Simulasi dulu supaya galat kontrak (misalnya bukan verifikator) muncul sebelum dompet terbuka.
+      await publicClient.simulateContract(call);
+      // Gas dan harga gas dihitung di sini, bukan ditebak dompet. Monad menagih berdasarkan batas gas,
+      // dan perkiraan biaya bawaan dompet bisa terlalu tinggi sampai dompet mengira saldonya kurang.
+      const [gas, fees] = await Promise.all([publicClient.estimateContractGas(call), publicClient.estimateFeesPerGas()]);
       // Monad memberi receipt di panggilan yang sama (eth_sendRawTransactionSync) bila dompet
       // mendukung; kalau tidak, viem menunggu receipt seperti biasa.
-      const receipt = await wallet.writeContractSync({ ...request, timeout: 30_000 });
+      const receipt = await wallet.writeContractSync({
+        ...call,
+        chain: monad,
+        gas: (gas * 12n) / 10n,
+        maxFeePerGas: fees.maxFeePerGas,
+        maxPriorityFeePerGas: fees.maxPriorityFeePerGas,
+        timeout: 30_000,
+      });
       setTx(receipt.transactionHash);
       onDecided(incident.id, functionName === "confirmFire" ? STATUS.Confirmed : STATUS.Rejected);
     } catch (err) {
@@ -56,13 +73,18 @@ export default function IncidentCard({ incident, concessionName, onDecided }: Pr
 
   return (
     <article className={`card incident ${statusClass}`}>
-      <div className="card-head">
+      <div className="card-head clickable" onClick={onFocus}>
         <strong>{t.incidentTitle(incident.id)}</strong>
         <span className={`badge ${statusClass}`}>{t.status[incident.status]}</span>
       </div>
       <p className="muted">
         {concessionName} · {formatWib(incident.observedAt, LOCALE[lang])}
       </p>
+      {incident.lat !== null ? (
+        <button className="link-btn" onClick={onFocus}>
+          {t.showOnMap} →
+        </button>
+      ) : null}
       <p className="muted small">
         <abbr title={t.cellHint}>{t.cellLabel}</abbr> <span className="mono">{incident.cell}</span>
         {incident.reportTx ? (
