@@ -62,6 +62,7 @@ const en = {
   errNotSuspected: "This incident has already been decided.",
   errRejected: "You cancelled the transaction in your wallet.",
   errNoWallet: "No browser wallet found. Install MetaMask or Rabby, then try again.",
+  errPending: "MetaMask still has an unanswered request. Open MetaMask, approve or reject it, reload this page, then try again.",
 
   batches: "Data batches",
   batchesEmpty: "The oracle has not anchored a batch yet.",
@@ -259,6 +260,7 @@ const id: Dict = {
   errNotSuspected: "Insiden ini sudah diputuskan sebelumnya.",
   errRejected: "Transaksi dibatalkan di dompet.",
   errNoWallet: "Dompet browser tidak ditemukan. Pasang MetaMask atau Rabby, lalu coba lagi.",
+  errPending: "MetaMask masih punya permintaan yang belum dijawab. Buka MetaMask, setujui atau tolak permintaan itu, muat ulang halaman ini, lalu coba lagi.",
 
   batches: "Batch data",
   batchesEmpty: "Oracle belum mencatat batch.",

@@ -28,6 +28,8 @@ export default function IncidentCard({ incident, concessionName, onDecided, onFo
     if (message.includes("NotVerifier")) return t.errNotVerifier;
     if (message.includes("NotSuspected")) return t.errNotSuspected;
     if (message.includes("User rejected") || message.includes("User denied")) return t.errRejected;
+    // EIP-1193 -32002: dompet menolak karena masih ada permintaan lain yang menggantung.
+    if ((err as { code?: number }).code === -32002 || message.includes("Requested resource not available")) return t.errPending;
     return (err as { shortMessage?: string }).shortMessage ?? message;
   }
 
