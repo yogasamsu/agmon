@@ -112,6 +112,24 @@ const en = {
     ["No money is ready for recovery", "Even won civil cases are hard to collect, so burned land waits years for restoration."],
   ] as readonly (readonly [string, string])[],
 
+  compareKicker: "Before vs after",
+  compareTitle: "From shifting blame to an automatic consequence",
+  beforeTitle: "Before AgMon",
+  before: [
+    "A company is granted a forest permit",
+    "When the forest burns, the government cannot quickly trace it to the permit holder",
+    "No tracker, so no penalty",
+    "Communities bear the smoke and the losses",
+  ] as readonly string[],
+  afterTitle: "With AgMon",
+  after: [
+    "Ministry registers the permit and its fire bond",
+    "Satellites detect every hotspot inside the permit",
+    "Manggala Agni verifies in the field",
+    "20% of the bond is released to restoration",
+    "Anyone can audit the record on Monad",
+  ] as readonly string[],
+
   solutionKicker: "The solution",
   solutionTitle: "How AgMon closes the loop",
   steps: [
@@ -252,6 +270,24 @@ const id: Dict = {
     ["Titik api tidak terikat ke siapa pun", "SiPongi dan NASA FIRMS menunjukkan lokasi api. Mencocokkannya dengan pemegang izin lalu menagih tanggung jawabnya masih manual dan lewat pengadilan."],
     ["Datanya bisa dibantah", "Tanpa catatan yang tidak bisa diubah, perdebatan bergeser dari api ke data, dan kesalahan jatuh ke pihak yang paling mudah disalahkan."],
     ["Dana pemulihan tidak siap", "Gugatan perdata yang menang pun sulit dieksekusi, sehingga lahan terbakar menunggu bertahun-tahun untuk dipulihkan."],
+  ],
+
+  compareKicker: "Sebelum dan sesudah",
+  compareTitle: "Dari saling lempar tanggung jawab ke konsekuensi otomatis",
+  beforeTitle: "Sebelum AgMon",
+  before: [
+    "Perusahaan mendapat izin konsesi",
+    "Saat hutan terbakar, pemerintah tidak bisa cepat melacak pemegang izinnya",
+    "Tanpa pelacak, tidak ada sanksi",
+    "Masyarakat menanggung asap dan kerugiannya",
+  ],
+  afterTitle: "Dengan AgMon",
+  after: [
+    "Kemenhut mendaftarkan izin dan jaminan kebakarannya",
+    "Satelit mendeteksi setiap titik api di dalam izin",
+    "Manggala Agni memverifikasi di lapangan",
+    "20% jaminan dicairkan ke dana restorasi",
+    "Siapa pun bisa mengaudit catatannya di Monad",
   ],
 
   solutionKicker: "Solusi",

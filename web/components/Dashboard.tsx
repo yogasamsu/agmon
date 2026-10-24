@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { FIREBOND, REPO_URL, STATUS, addressUrl, formatIdr, formatMon } from "@/lib/chain";
 import { LOCALE, useLang } from "@/lib/i18n";
 import type { DashboardData } from "@/lib/types";
-import FireBand from "./FireBand";
+import type { Flare } from "./FlameLayer";
 import IncidentCard from "./IncidentCard";
 import IntegrityCheck from "./IntegrityCheck";
 import SiteHeader from "./SiteHeader";
@@ -24,7 +24,7 @@ export default function Dashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [focusId, setFocusId] = useState<number | null>(null);
-  const [flareKey, setFlareKey] = useState(0);
+  const [flare, setFlare] = useState<Flare>(null);
   // Status yang baru saja diputuskan di browser ini. Dipakai sampai API ikut melihatnya,
   // supaya verifikator langsung melihat hasil keputusannya sendiri (read-your-writes).
   const [decided, setDecided] = useState<Map<number, number>>(new Map());
@@ -63,34 +63,15 @@ export default function Dashboard() {
   const onDecided = useCallback(
     (id: number, status: number) => {
       setDecided((prev) => new Map(prev).set(id, status));
-      if (status === STATUS.Confirmed) setFlareKey((k) => k + 1);
+      if (status === STATUS.Confirmed) setFlare({ incidentId: id, at: performance.now() });
       load();
     },
     [load],
   );
 
-  // Pratinjau efek untuk rekaman video: ?fire=<diduga>,<terkonfirmasi>. Hanya mengubah pita api,
-  // bukan data. Setiap kali angka terkonfirmasi naik lewat URL ini, api ikut menyala sesaat.
-  const [firePreview, setFirePreview] = useState<[number, number] | null>(null);
-  useEffect(() => {
-    const read = () => {
-      const raw = new URLSearchParams(window.location.search).get("fire");
-      const parts = raw?.split(",").map(Number);
-      setFirePreview(parts && parts.length === 2 && parts.every(Number.isFinite) ? [parts[0], parts[1]] : null);
-    };
-    read();
-    window.addEventListener("popstate", read);
-    return () => window.removeEventListener("popstate", read);
-  }, []);
-
   const concessionName = (id: number) => data?.concessions.find((c) => c.id === id)?.name ?? t.permitFallback(id);
   const suspected = incidents.filter((i) => i.status === STATUS.Suspected).length;
   const confirmed = incidents.filter((i) => i.status === STATUS.Confirmed).length;
-  const [fireSuspected, fireConfirmed] = firePreview ?? [suspected, confirmed];
-
-  useEffect(() => {
-    if (firePreview && firePreview[1] > 0) setFlareKey((k) => k + 1);
-  }, [firePreview?.[1]]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="shell">
@@ -136,6 +117,7 @@ export default function Dashboard() {
             incidents={incidents}
             focusId={focusId}
             onSelectConcession={setFocusId}
+            flare={flare}
           />
           <ul className="legend" aria-label="Legend">
             <li><i style={{ background: "#DC2626" }} />{t.legendConfirmed}</li>
@@ -144,7 +126,6 @@ export default function Dashboard() {
             <li><i style={{ background: "#FEF3C7" }} />{t.legendOutside}</li>
             <li><i style={{ background: "#A8A29E" }} />{t.legendRejected}</li>
           </ul>
-          <FireBand suspected={fireSuspected} confirmed={fireConfirmed} flareKey={flareKey} />
         </section>
 
         <aside className="panel">

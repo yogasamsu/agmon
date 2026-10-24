@@ -23,6 +23,14 @@ export default function Landing() {
   const suspected = data?.incidents.filter((i) => i.status === STATUS.Suspected).length ?? 0;
   const confirmed = data?.incidents.filter((i) => i.status === STATUS.Confirmed).length ?? 0;
 
+  // Pratinjau untuk rekaman video iklan: ?fire=<diduga>,<terkonfirmasi> hanya mengubah footer api.
+  const [preview, setPreview] = useState<[number, number] | null>(null);
+  useEffect(() => {
+    const parts = new URLSearchParams(window.location.search).get("fire")?.split(",").map(Number);
+    if (parts?.length === 2 && parts.every(Number.isFinite)) setPreview([parts[0], parts[1]]);
+  }, []);
+  const [fireSuspected, fireConfirmed] = preview ?? [suspected, confirmed];
+
   return (
     <div className="page">
       <SiteHeader />
@@ -89,6 +97,32 @@ export default function Landing() {
         </ol>
       </section>
 
+      <section className="land-section">
+        <p className="kicker">{t.compareKicker}</p>
+        <h2>{t.compareTitle}</h2>
+        <div className="compare">
+          <div className="compare-col before">
+            <h3>{t.beforeTitle}</h3>
+            <ul>
+              {t.before.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="compare-arrow" aria-hidden>
+            →
+          </div>
+          <div className="compare-col after">
+            <h3>{t.afterTitle}</h3>
+            <ol>
+              {t.after.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
       <section className="land-section cream">
         <p className="kicker">{t.solutionKicker}</p>
         <h2>{t.solutionTitle}</h2>
@@ -146,7 +180,7 @@ export default function Landing() {
         <p className="muted small">{t.demoNote}</p>
       </section>
 
-      <FireBand suspected={suspected} confirmed={confirmed} flareKey={0} />
+      <FireBand suspected={fireSuspected} confirmed={fireConfirmed} flareKey={0} />
     </div>
   );
 }

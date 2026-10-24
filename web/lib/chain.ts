@@ -1,4 +1,4 @@
-import { createPublicClient, defineChain, formatEther, http, type Address } from "viem";
+import { createPublicClient, defineChain, fallback, formatEther, http, type Address } from "viem";
 
 export const REPO_URL = process.env.NEXT_PUBLIC_REPO_URL || "https://github.com/yogasamsu/agmon";
 export const EXPLORER = process.env.NEXT_PUBLIC_EXPLORER_URL || "https://testnet.monadexplorer.com";
@@ -16,10 +16,22 @@ export const monad = defineChain({
 
 // multicall: semua readContract dalam satu putaran digabung menjadi satu eth_call lewat Multicall3.
 // RPC publik Monad menolak terlalu banyak panggilan sekaligus, dan jumlah insiden terus bertambah.
+// fallback: RPC publik Monad dibatasi 15 permintaan per detik per IP. Kalau dibatasi atau gagal,
+// viem otomatis pindah ke RPC berikutnya.
+const RPC_URLS = [
+  process.env.NEXT_PUBLIC_MONAD_RPC_URL || "https://testnet-rpc.monad.xyz",
+  ...(monadTestnetBackups()),
+];
+
+function monadTestnetBackups(): string[] {
+  if (Number(process.env.NEXT_PUBLIC_MONAD_CHAIN_ID || 10143) !== 10143) return [];
+  return ["https://monad-testnet.drpc.org", "https://rpc.ankr.com/monad_testnet", "https://10143.rpc.thirdweb.com"];
+}
+
 export const publicClient = createPublicClient({
   chain: monad,
   batch: { multicall: true },
-  transport: http(undefined, { retryCount: 3 }),
+  transport: fallback(RPC_URLS.map((url) => http(url, { retryCount: 1 }))),
 });
 
 export const txUrl = (hash: string) => `${EXPLORER}/tx/${hash}`;

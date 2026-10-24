@@ -2,11 +2,12 @@
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { CircleMarker, GeoJSON, LayersControl, MapContainer, Popup, TileLayer, useMap } from "react-leaflet";
 import { STATUS, formatWib } from "@/lib/chain";
 import { LOCALE, useLang } from "@/lib/i18n";
 import type { ConcessionView, HotspotView, IncidentView } from "@/lib/types";
+import FlameLayer, { type Flare, type FlameKind } from "./FlameLayer";
 
 // Warna peta ditulis langsung karena Leaflet memasang warna sebagai atribut SVG,
 // bukan lewat CSS, sehingga variabel CSS tidak terbaca.
@@ -27,16 +28,17 @@ type Props = {
   incidents: IncidentView[];
   focusId: number | null;
   onSelectConcession: (id: number) => void;
+  flare: Flare;
 };
 
-function hotspotColor(h: HotspotView, statusById: Map<number, number>): string {
+function hotspotKind(h: HotspotView, statusById: Map<number, number>): FlameKind {
   if (h.incidentId) {
     const status = statusById.get(h.incidentId);
-    if (status === STATUS.Confirmed) return COLOR.confirmed;
-    if (status === STATUS.Rejected) return COLOR.rejected;
-    return COLOR.suspected;
+    if (status === STATUS.Confirmed) return "confirmed";
+    if (status === STATUS.Rejected) return "rejected";
+    return "suspected";
   }
-  return h.concessionId ? COLOR.insideOther : COLOR.outside;
+  return h.concessionId ? "inside" : "outside";
 }
 
 function FocusController({ concessions, focusId }: { concessions: ConcessionView[]; focusId: number | null }) {
@@ -59,9 +61,14 @@ function FocusController({ concessions, focusId }: { concessions: ConcessionView
   return null;
 }
 
-export default function FireMap({ concessions, hotspots, incidents, focusId, onSelectConcession }: Props) {
+export default function FireMap({ concessions, hotspots, incidents, focusId, onSelectConcession, flare }: Props) {
   const { lang, t } = useLang();
-  const statusById = new Map(incidents.map((i) => [i.id, i.status]));
+  const statusById = useMemo(() => new Map(incidents.map((i) => [i.id, i.status])), [incidents]);
+  const flames = useMemo(
+    () =>
+      hotspots.map((h) => ({ lat: h.lat, lng: h.lng, kind: hotspotKind(h, statusById), frp: h.frp, incidentId: h.incidentId })),
+    [hotspots, statusById],
+  );
 
   return (
     // Seluruh Indonesia. Begitu ada izin terdaftar, peta otomatis mendekat ke izin itu.
@@ -100,8 +107,9 @@ export default function FireMap({ concessions, hotspots, incidents, focusId, onS
         <CircleMarker
           key={h.id}
           center={[h.lat, h.lng]}
-          radius={h.incidentId ? 8 : 5}
-          pathOptions={{ color: "#1C1917", weight: 1, fillColor: hotspotColor(h, statusById), fillOpacity: 0.95 }}
+          radius={h.incidentId ? 12 : 7}
+          // Tak terlihat: api digambar FlameLayer. Lingkaran ini hanya target klik untuk popup.
+          pathOptions={{ stroke: false, fillColor: "#000", fillOpacity: 0 }}
         >
           <Popup>
             <strong>{formatWib(h.observedAt, LOCALE[lang])}</strong>
@@ -121,6 +129,7 @@ export default function FireMap({ concessions, hotspots, incidents, focusId, onS
         </CircleMarker>
       ))}
 
+      <FlameLayer points={flames} flare={flare} />
       <FocusController concessions={concessions} focusId={focusId} />
     </MapContainer>
   );

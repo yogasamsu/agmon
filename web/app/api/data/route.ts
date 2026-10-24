@@ -11,8 +11,30 @@ export const dynamic = "force-dynamic";
  * saldo jaminan, dan jumlah batch selalu dibaca dari Monad, karena chain adalah sumber kebenaran
  * dan Supabase bisa tertinggal sesaat dari chain.
  */
+// Banyak pengunjung dalam 10 detik cukup memicu satu bacaan chain dan database.
+const CACHE_MS = 10_000;
+let cache: { at: number; data: DashboardData } | null = null;
+let inflight: Promise<DashboardData> | null = null;
+
 export async function GET() {
   try {
+    if (cache && Date.now() - cache.at < CACHE_MS) return NextResponse.json(cache.data);
+    inflight ??= load().finally(() => {
+      inflight = null;
+    });
+    const data = await inflight;
+    cache = { at: Date.now(), data };
+    return NextResponse.json(data);
+  } catch (err) {
+    // Kalau chain sedang membatasi permintaan, data terakhir yang berhasil lebih berguna daripada galat.
+    if (cache) return NextResponse.json(cache.data);
+    const message = err instanceof Error ? err.message : JSON.stringify(err);
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}
+
+async function load(): Promise<DashboardData> {
+  {
     const db = supabase();
     const hotspotCols = "id,lat,lng,confidence,frp,observed_at_unix,concession_id,incident_id,batch_id";
     const [concessionRes, incidentRes, hotspotRes, insideRes, batchRes] = await Promise.all([
@@ -39,6 +61,13 @@ export async function GET() {
 
     const onChain = Boolean(FIREBOND);
 
+    // Semua bacaan kontrak dimulai bersamaan supaya viem menggabungkannya menjadi satu panggilan Multicall3.
+    const chainMeta = onChain
+      ? Promise.all([
+          publicClient.readContract({ address: FIREBOND, abi: fireBondAbi, functionName: "restorationFund" }),
+          publicClient.readContract({ address: FIREBOND, abi: fireBondAbi, functionName: "batchCount" }),
+        ])
+      : null;
     const concessions = await Promise.all(
       concessionRes.data!.map(async (row) => {
         const [, , bond, confirmedFires, openIncidents] = onChain
@@ -90,11 +119,8 @@ export async function GET() {
     let fundAddress: string | null = null;
     let fundBalanceWei = "0";
     let batchCount = batchRes.data!.length;
-    if (onChain) {
-      const [fund, batches] = await Promise.all([
-        publicClient.readContract({ address: FIREBOND, abi: fireBondAbi, functionName: "restorationFund" }),
-        publicClient.readContract({ address: FIREBOND, abi: fireBondAbi, functionName: "batchCount" }),
-      ]);
+    if (chainMeta) {
+      const [fund, batches] = await chainMeta;
       fundAddress = fund;
       batchCount = Number(batches);
       fundBalanceWei = (await publicClient.getBalance({ address: fund })).toString();
@@ -128,9 +154,6 @@ export async function GET() {
         anchorTx: b.anchor_tx,
       })),
     };
-    return NextResponse.json(data);
-  } catch (err) {
-    const message = err instanceof Error ? err.message : JSON.stringify(err);
-    return NextResponse.json({ error: message }, { status: 500 });
+    return data;
   }
 }
