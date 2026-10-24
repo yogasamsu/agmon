@@ -1,0 +1,23 @@
+{
+  "name": "jejakapi-oracle",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "seed": "tsx src/seed.ts",
+    "oracle": "tsx src/run.ts",
+    "reconcile": "tsx src/reconcile.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
+    "csv-parse": "^7.0.3",
+    "dotenv": "^18.0.8",
+    "h3-js": "^4.5.0",
+    "viem": "^2.57.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "PT Contoh Sawit (fiktif)",
+        "keterangan": "Izin fiktif untuk demo di Kabupaten Ketapang, Kalimantan Barat. Bukan data perusahaan sungguhan."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [110.20, -1.95], [110.30, -1.95], [110.30, -1.85], [110.20, -1.85], [110.20, -1.95]
+        ]]
+      }
+    }
+  ]
+}

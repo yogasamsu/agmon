@@ -1,0 +1,516 @@
+/* Token warna dari PRD bagian 11. Tema sengaja hanya terang: putih di atas, panas dan gosong di bawah. */
+:root {
+  --white: #ffffff;
+  --cream: #fff7ed;
+  --fire: #ea580c;
+  --fire-bright: #f97316;
+  --ember: #fbbf24;
+  --red: #dc2626;
+  --char: #1c1917;
+  --ash: #57534e;
+  --line: #fed7aa;
+  --line-soft: #f5e6d8;
+  --ok: #15803d;
+  --ok-soft: #dcfce7;
+  --bad-soft: #fee2e2;
+  --radius: 12px;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--white);
+  color: var(--char);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--fire);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+abbr[title] {
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+.mono,
+.mono-num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.mono {
+  font-size: 0.86em;
+}
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ---------- Kepala ---------- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px 10px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.brand h1 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--fire);
+}
+
+.brand p {
+  color: var(--ash);
+  font-size: 13px;
+}
+
+.logo {
+  flex: none;
+}
+
+.lang {
+  display: inline-flex;
+  flex: none;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--cream);
+}
+
+.lang-btn {
+  padding: 4px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ash);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.lang-btn.on {
+  background: var(--fire);
+  color: var(--white);
+}
+
+.hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 20px 14px;
+  border-bottom: 1px solid var(--line-soft);
+  flex-wrap: wrap;
+}
+
+.intro {
+  max-width: 62ch;
+  color: var(--ash);
+}
+
+.demo-note {
+  color: var(--fire);
+  font-weight: 600;
+}
+
+.stats {
+  display: flex;
+  gap: 22px;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.stats dt {
+  color: var(--ash);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stats dd {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.stats dd.ember {
+  color: var(--fire-bright);
+}
+
+.stats dd.red {
+  color: var(--red);
+}
+
+.banner {
+  padding: 10px 20px;
+}
+
+.banner.error {
+  background: var(--bad-soft);
+  color: var(--red);
+}
+
+/* ---------- Tata letak ---------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 410px;
+  flex: 1;
+  min-height: 0;
+}
+
+.map-wrap {
+  position: relative;
+  min-height: 0;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.map-loading {
+  background: var(--cream);
+}
+
+.legend {
+  position: absolute;
+  left: 12px;
+  bottom: 28px;
+  z-index: 500;
+  margin: 0;
+  padding: 10px 12px;
+  list-style: none;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 12px;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--char);
+}
+
+.leaflet-container {
+  font: inherit;
+}
+
+/* Panel berada di atas pita api dan berlatar penuh, jadi tombol Konfirmasi tidak pernah tertutup. */
+.panel {
+  position: relative;
+  z-index: 900;
+  overflow-y: auto;
+  padding: 16px 16px 28px;
+  border-left: 1px solid var(--line-soft);
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel h2 {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ash);
+  margin-top: 10px;
+}
+
+.roles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--cream);
+}
+
+.roles h2 {
+  margin-top: 0;
+}
+
+.roles ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.roles li {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.roles strong {
+  color: var(--fire);
+}
+
+/* ---------- Kartu ---------- */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  background: var(--white);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+
+button.card {
+  cursor: pointer;
+}
+
+button.card:hover {
+  border-color: var(--line);
+  background: var(--cream);
+}
+
+.card.concession.active {
+  border-color: var(--fire);
+  box-shadow: 0 0 0 1px var(--fire);
+}
+
+.card.incident.suspected {
+  border-color: var(--line);
+  background: var(--cream);
+}
+
+.card.incident.confirmed {
+  border-left: 4px solid var(--red);
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.bond {
+  font-family: var(--mono);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.muted {
+  color: var(--ash);
+}
+
+.small {
+  font-size: 12px;
+}
+
+.error {
+  color: var(--red);
+}
+
+.badge {
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--line-soft);
+  color: var(--ash);
+  white-space: nowrap;
+}
+
+.badge.suspected {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge.confirmed {
+  background: var(--red);
+  color: var(--white);
+}
+
+.role-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fire);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.file {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--char);
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+button:not(.card):not(.lang-btn) {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--char);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.primary {
+  background: var(--fire);
+  border-color: var(--fire);
+  color: var(--white);
+}
+
+button.primary:hover:not(:disabled) {
+  background: var(--fire-bright);
+  border-color: var(--fire-bright);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.integrity {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.integrity.ok {
+  background: var(--ok-soft);
+  color: var(--ok);
+}
+
+.integrity.bad {
+  background: var(--bad-soft);
+  color: var(--red);
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-soft);
+}
+
+/* ---------- Pita api ---------- */
+
+/* z-index 450: di atas panel peta Leaflet (400), di bawah legenda (500), kontrol zoom dan
+   atribusi (800), serta panel kanan (900). pointer-events: none, jadi peta tetap bisa diklik. */
+.fire-band {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 450;
+  width: 100vw;
+  pointer-events: none;
+}
+
+@media (max-width: 860px) {
+  .shell {
+    height: auto;
+  }
+
+  .topbar {
+    padding: 12px 16px 8px;
+  }
+
+  .hero {
+    padding: 0 16px 12px;
+  }
+
+  .brand p {
+    font-size: 12px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .map-wrap {
+    height: 60vh;
+  }
+
+  .panel {
+    border-left: none;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .stats {
+    gap: 14px;
+  }
+
+  .stats dd {
+    font-size: 17px;
+  }
+
+  /* Di ponsel panel insiden ada di bawah peta, jadi api menempel di tepi bawah peta saja. */
+  .fire-band {
+    position: absolute;
+    width: 100%;
+  }
+}

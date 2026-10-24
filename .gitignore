@@ -1,0 +1,17 @@
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+.env
+.env.local
+.wallets.json
+*.log
+.DS_Store
+
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+oracle/spool/
+
+# Slide panitia memuat kata sandi Wi-Fi acara; jangan masuk repo publik.
+blitz-slides-redesign.pdf
