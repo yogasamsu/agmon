@@ -8,9 +8,9 @@ Every satellite fire hotspot tied to the permit holder whose land it falls on, r
 
 | | |
 | --- | --- |
-| Live app | **TBD** (Vercel) |
-| FireBond contract (Monad testnet, chain 10143) | **TBD** · [explorer](https://testnet.monadexplorer.com) |
-| Deployed | **TBD**, during Monad Blitz Jogja, 24 Oct 2026 · deploy tx **TBD** |
+| Live app | https://agmon.vercel.app (live dashboard: https://agmon.vercel.app/dashboard) |
+| FireBond contract (Monad testnet, chain 10143) | [`0x9678b78624706d383b606412A37289879cE8bC8A`](https://testnet.monadvision.com/address/0x9678b78624706d383b606412A37289879cE8bC8A) · source verified on MonadVision and Monadscan |
+| Deployed | 24 Oct 2026, 11:48 WIB, during Monad Blitz Jogja · [deploy tx](https://testnet.monadvision.com/tx/0x547a2fde1441eaa867871aa9b03b0de5d11fe11b9bb774c8375e50a8e4fc736c) |
 | Demo video | **TBD** |
 | Coverage | Hotspots across all of Indonesia · pilot permit in West Kalimantan |
 
@@ -156,7 +156,7 @@ Each time `FireBond.sol` changes, run `forge build` and then `node scripts/expor
 ## Demo script
 
 1. Open the live app at `/dashboard`. The map shows the permit in Ketapang, West Kalimantan, and the hotspots. The fire along the bottom of the screen rises with the number of Suspected incidents.
-2. Connect MetaMask with the verifier wallet, optionally attach a photo, and press **Confirm fire**. The bond drops from 10 to 8 MON, the restoration fund rises by 2 MON, the fire flares, and the scorch at the bottom of the screen thickens.
+2. Connect MetaMask with the verifier wallet, optionally attach a photo, and press **Confirm fire**. The bond drops from 2 to 1.6 MON (shown as IDR 1 billion to IDR 800 million at demo scale), the restoration fund rises by 0.4 MON, the fire flares, and the scorch at the bottom of the screen thickens.
 3. Open the transaction in the explorer.
 4. Press **Check integrity** on the batch: **Match**. Change one `frp` value in the Supabase table editor and check again: **Mismatch**.
 
@@ -168,7 +168,7 @@ To record the ad video without touching data, append `?fire=<suspected>,<confirm
 
 - One centralised oracle. Production plan: several independent oracles and an objection period for the permit holder.
 - The demo bond is native testnet MON. Production holds it on chain as a Rupiah stablecoin or a tokenized bank guarantee (see Why Monad).
-- Each confirmed fire slashes 20% of the *remaining* bond (10 → 8 → 6.4 MON). In production (P1) the slash is a fixed 20% of the initial required bond, and the holder must top up (replenish) within a set deadline.
+- Each confirmed fire slashes 20% of the *remaining* bond (2 → 1.6 → 1.28 MON). In production (P1) the slash is a fixed 20% of the initial required bond, and the holder must top up (replenish) within a set deadline.
 - Only hashes, H3 cell ids, timestamps, and decisions go on the public chain. Raw data and permit maps stay on government servers.
 - `registerConcession` is open to any wallet in this demo, and the deployer plays the regulator. In production (P1) it is locked with an `onlyRegulator` modifier, so only the Ministry of Forestry wallet can register a permit on the holder's behalf.
 
