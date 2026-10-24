@@ -196,6 +196,22 @@ const en = {
     ["Forests", "Fire carries a price, so preventing it becomes cheaper than letting it burn. That pushes toward sustainable forestry."],
   ] as readonly (readonly [string, string])[],
 
+  revenueKicker: "Business model",
+  revenueTitle: "Who pays, and how much",
+  revenueStreams: [
+    ["Government", "Platform license", "IDR 0.5–1.5 billion per province per year", "Annual contract from the Ministry of Forestry or a province, through government procurement (e-katalog)."],
+    ["Permit holders", "Bond admin fee", "IDR 500–1,500 per hectare per year", "Set together with the ministry. The bond itself stays the holder's money and comes back if the land stays clean."],
+    ["Banks, buyers, carbon developers", "Data access", "Paid API, next phase", "Fire history per permit for due diligence on palm oil supply chains, loans, and carbon projects."],
+  ] as readonly (readonly [string, string, string, string])[],
+  projectionTitle: "Illustration",
+  projection: [
+    ["1 pilot province, 1 million ha", "IDR 1 billion license + 1 million ha × IDR 1,000", "≈ IDR 2 billion / year"],
+    ["5 fire-prone provinces", "same model", "≈ IDR 10 billion / year"],
+    ["Running cost on Monad", "one batch every 30 minutes ≈ 0.46 MON/day", "< US$0.02 / day"],
+  ] as readonly (readonly [string, string, string])[],
+  projectionCompare: "For scale: the 2019 fires cost Indonesia about US$5.2 billion (World Bank).",
+  projectionNote: "All prices are hypotheses to test with the ministry, not research results.",
+
   closingTitle: "See it working on Monad testnet",
   closingBody: "Press Confirm with the verifier wallet and watch the bond move to the restoration fund.",
 };
@@ -392,6 +408,22 @@ const id: Dict = {
     ["Masyarakat", "Dasbor publik yang menunjukkan izin mana yang terbakar dan konsekuensinya, jadi warga punya bukti untuk menuntut tindakan."],
     ["Hutan", "Api punya harga, sehingga mencegahnya lebih murah daripada membiarkannya. Itu mendorong pengelolaan hutan lestari."],
   ],
+
+  revenueKicker: "Model bisnis",
+  revenueTitle: "Siapa membayar, dan berapa",
+  revenueStreams: [
+    ["Pemerintah", "Lisensi platform", "Rp0,5–1,5 miliar per provinsi per tahun", "Kontrak tahunan dari Kemenhut atau pemerintah provinsi, lewat pengadaan pemerintah (e-katalog)."],
+    ["Pemegang izin", "Biaya administrasi jaminan", "Rp500–1.500 per hektare per tahun", "Ditetapkan bersama Kemenhut. Jaminannya tetap milik pemegang izin dan kembali kalau lahannya bersih."],
+    ["Bank, pembeli sawit, pengembang karbon", "Akses data", "API berbayar, fase berikutnya", "Riwayat kebakaran per izin untuk uji tuntas rantai pasok sawit, kredit, dan proyek karbon."],
+  ],
+  projectionTitle: "Ilustrasi",
+  projection: [
+    ["1 provinsi pilot, 1 juta ha", "lisensi Rp1 miliar + 1 juta ha × Rp1.000", "≈ Rp2 miliar / tahun"],
+    ["5 provinsi rawan kebakaran", "model yang sama", "≈ Rp10 miliar / tahun"],
+    ["Biaya operasional di Monad", "satu batch tiap 30 menit ≈ 0,46 MON/hari", "< US$0,02 / hari"],
+  ],
+  projectionCompare: "Sebagai pembanding: kebakaran 2019 merugikan Indonesia sekitar US$5,2 miliar (Bank Dunia).",
+  projectionNote: "Semua harga adalah hipotesis untuk diuji bersama Kemenhut, belum hasil riset.",
 
   closingTitle: "Lihat langsung di Monad testnet",
   closingBody: "Tekan Konfirmasi dengan dompet verifikator, lalu lihat jaminan berpindah ke dana restorasi.",

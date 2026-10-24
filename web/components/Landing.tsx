@@ -175,6 +175,37 @@ export default function Landing() {
         </ul>
       </section>
 
+      <section className="land-section">
+        <p className="kicker">{t.revenueKicker}</p>
+        <h2>{t.revenueTitle}</h2>
+        <ul className="grid three plain">
+          {t.revenueStreams.map(([who, what, price, body], i) => (
+            <li key={who} className={`tile ${i < 2 ? "featured" : ""}`}>
+              <span className="small muted">{who}</span>
+              <h3>{what}</h3>
+              <strong className="price">{price}</strong>
+              <p>{body}</p>
+            </li>
+          ))}
+        </ul>
+        <div className="projection">
+          <h3>{t.projectionTitle}</h3>
+          <table>
+            <tbody>
+              {t.projection.map(([label, basis, total]) => (
+                <tr key={label}>
+                  <th>{label}</th>
+                  <td className="muted">{basis}</td>
+                  <td className="mono-num">{total}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="small">{t.projectionCompare}</p>
+          <p className="small muted">{t.projectionNote}</p>
+        </div>
+      </section>
+
       <section className="land-section closing">
         <h2>{t.closingTitle}</h2>
         <p className="lead">{t.closingBody}</p>

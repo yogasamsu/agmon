@@ -1091,6 +1091,53 @@ button:disabled {
   font-weight: 800;
 }
 
+.price {
+  display: block;
+  margin: 4px 0 6px;
+  color: var(--fire);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.projection {
+  margin-top: 20px;
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  background: var(--cream);
+  border: 1px solid var(--line);
+}
+
+.projection table {
+  width: 100%;
+  margin: 8px 0 12px;
+  border-collapse: collapse;
+}
+
+.projection th,
+.projection td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.projection th {
+  font-weight: 700;
+}
+
+.projection td.mono-num {
+  color: var(--fire);
+  font-weight: 700;
+  text-align: right;
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .projection td.muted {
+    display: none;
+  }
+}
+
 .closing {
   text-align: center;
 }
