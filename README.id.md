@@ -8,7 +8,7 @@ Setiap titik api satelit terikat ke pemegang izin pemilik lahannya, tercatat di 
 
 | | |
 | --- | --- |
-| Aplikasi live | https://agmon.vercel.app (dasbor live: https://agmon.vercel.app/dashboard) |
+| Aplikasi live | https://agmon.site (dasbor live: https://agmon.site/dashboard) |
 | Kontrak FireBond (Monad testnet, chain 10143) | [`0x9678b78624706d383b606412A37289879cE8bC8A`](https://testnet.monadvision.com/address/0x9678b78624706d383b606412A37289879cE8bC8A) · kode sumber terverifikasi di MonadVision dan Monadscan |
 | Waktu deploy | 24 Okt 2026, 11.48 WIB, selama Monad Blitz Jogja · [tx deploy](https://testnet.monadvision.com/tx/0x547a2fde1441eaa867871aa9b03b0de5d11fe11b9bb774c8375e50a8e4fc736c) |
 | Video demo | **TBD** |

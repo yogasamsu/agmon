@@ -8,7 +8,7 @@ Every satellite fire hotspot tied to the permit holder whose land it falls on, r
 
 | | |
 | --- | --- |
-| Live app | https://agmon.vercel.app (live dashboard: https://agmon.vercel.app/dashboard) |
+| Live app | https://agmon.site (live dashboard: https://agmon.site/dashboard) |
 | FireBond contract (Monad testnet, chain 10143) | [`0x9678b78624706d383b606412A37289879cE8bC8A`](https://testnet.monadvision.com/address/0x9678b78624706d383b606412A37289879cE8bC8A) · source verified on MonadVision and Monadscan |
 | Deployed | 24 Oct 2026, 11:48 WIB, during Monad Blitz Jogja · [deploy tx](https://testnet.monadvision.com/tx/0x547a2fde1441eaa867871aa9b03b0de5d11fe11b9bb774c8375e50a8e4fc736c) |
 | Demo video | **TBD** |
