@@ -6,7 +6,8 @@
     "seed": "tsx src/seed.ts",
     "oracle": "tsx src/run.ts",
     "reconcile": "tsx src/reconcile.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "loop": "sh loop.sh"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",
