@@ -14,21 +14,28 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const db = supabase();
-    const [concessionRes, incidentRes, hotspotRes, batchRes] = await Promise.all([
+    const hotspotCols = "id,lat,lng,confidence,frp,observed_at_unix,concession_id,incident_id,batch_id";
+    const [concessionRes, incidentRes, hotspotRes, insideRes, batchRes] = await Promise.all([
       db.from("concessions").select("id,name,owner,geojson,register_tx").order("id"),
       db
         .from("incidents")
         .select("id,concession_id,cell,observed_at_unix,report_tx,hotspot:hotspots(lat,lng)")
         .order("id", { ascending: false })
         .limit(50),
+      // Titik api terbaru dari seluruh Indonesia untuk konteks peta.
+      db.from("hotspots").select(hotspotCols).order("observed_at_unix", { ascending: false }).limit(1500),
+      // Titik api di dalam izin selalu ikut, walaupun lebih lama dari 1.500 titik terbaru.
       db
         .from("hotspots")
-        .select("id,lat,lng,confidence,frp,observed_at_unix,concession_id,incident_id,batch_id")
+        .select(hotspotCols)
+        .not("concession_id", "is", null)
         .order("observed_at_unix", { ascending: false })
-        .limit(1000),
+        .limit(500),
       db.from("batches").select("*").order("id", { ascending: false }).limit(20),
     ]);
-    for (const res of [concessionRes, incidentRes, hotspotRes, batchRes]) if (res.error) throw res.error;
+    for (const res of [concessionRes, incidentRes, hotspotRes, insideRes, batchRes]) if (res.error) throw res.error;
+    const hotspotRows = new Map<number, NonNullable<typeof hotspotRes.data>[number]>();
+    for (const h of [...insideRes.data!, ...hotspotRes.data!]) hotspotRows.set(h.id, h);
 
     const onChain = Boolean(FIREBOND);
 
@@ -100,7 +107,7 @@ export async function GET() {
       batchCount,
       concessions,
       incidents,
-      hotspots: hotspotRes.data!.map((h) => ({
+      hotspots: [...hotspotRows.values()].map((h) => ({
         id: h.id,
         lat: h.lat,
         lng: h.lng,

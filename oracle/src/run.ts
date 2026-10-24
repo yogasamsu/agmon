@@ -15,6 +15,8 @@ import { clearSpool, reconcile, writeSpool } from "./reconcile.js";
 type Supa = ReturnType<typeof db>;
 
 const SYNC_TIMEOUT_MS = 20_000;
+/** Sama dengan DEDUP_WINDOW di FireBond.sol. */
+const DEDUP_WINDOW_SECONDS = 24 * 60 * 60;
 
 const key = (h: { observed_at_unix: number; lat: number; lng: number }) => `${h.observed_at_unix}|${h.lat}|${h.lng}`;
 
@@ -129,12 +131,30 @@ async function main() {
   }
   clearSpool(dataHash);
 
-  // 3. Laporkan hotspot di dalam konsesi
-  const candidates = fresh
+  // 3. Laporkan hotspot di dalam konsesi. Kontrak menolak sel yang sama dalam 24 jam, tetapi
+  //    transaksi yang ditolak tetap bayar gas. Jadi jendela itu dicek dulu lewat pembacaan gratis.
+  const inside = fresh
     .filter((h) => concessionByCell.has(h.cell) && h.confidence >= 1)
-    .sort((a, b) => a.observed_at_unix - b.observed_at_unix)
-    .slice(0, config.maxReports);
-  console.log(`${candidates.length} hotspot jatuh di dalam konsesi`);
+    .sort((a, b) => a.observed_at_unix - b.observed_at_unix);
+  const lastAt = new Map<string, number>();
+  const candidates = [];
+  for (const h of inside) {
+    if (candidates.length >= config.maxReports) break;
+    if (!lastAt.has(h.cell)) {
+      const last = await publicClient.readContract({
+        address,
+        abi: fireBondAbi,
+        functionName: "lastIncidentAt",
+        args: [cellToUint(h.cell)],
+      });
+      lastAt.set(h.cell, Number(last));
+    }
+    const last = lastAt.get(h.cell)!;
+    if (last !== 0 && h.observed_at_unix < last + DEDUP_WINDOW_SECONDS) continue;
+    lastAt.set(h.cell, h.observed_at_unix);
+    candidates.push(h);
+  }
+  console.log(`${inside.length} hotspot jatuh di dalam konsesi, ${candidates.length} dilaporkan (sisanya masih dalam jendela 24 jam sel yang sama)`);
 
   for (const h of candidates) {
     const { request } = await publicClient.simulateContract({

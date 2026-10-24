@@ -10,11 +10,17 @@ export const monad = defineChain({
   nativeCurrency: { name: "MON", symbol: "MON", decimals: 18 },
   rpcUrls: { default: { http: [process.env.NEXT_PUBLIC_MONAD_RPC_URL || "https://testnet-rpc.monad.xyz"] } },
   blockExplorers: { default: { name: "Monad Explorer", url: EXPLORER } },
+  contracts: { multicall3: { address: "0xcA11bde05977b3631167028862bE2a173976CA11" } },
   testnet: true,
 });
 
-// batch: true menggabungkan banyak panggilan baca dalam satu permintaan HTTP.
-export const publicClient = createPublicClient({ chain: monad, transport: http(undefined, { batch: true }) });
+// multicall: semua readContract dalam satu putaran digabung menjadi satu eth_call lewat Multicall3.
+// RPC publik Monad menolak terlalu banyak panggilan sekaligus, dan jumlah insiden terus bertambah.
+export const publicClient = createPublicClient({
+  chain: monad,
+  batch: { multicall: true },
+  transport: http(undefined, { retryCount: 3 }),
+});
 
 export const txUrl = (hash: string) => `${EXPLORER}/tx/${hash}`;
 export const addressUrl = (address: string) => `${EXPLORER}/address/${address}`;
