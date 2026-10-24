@@ -92,9 +92,8 @@ const en = {
   idrUnits: { trillion: "trillion", billion: "billion", million: "million", prefix: "IDR " },
 
   navHome: "Home",
-  heroNameTitle: "Why \u201cAgMon\u201d?",
-  heroName:
-    "Agni + Monad. Agni is the Hindu god of fire, and the namesake of Manggala Agni, the forest fire brigade that verifies every incident in AgMon. Monad is the blockchain that makes each fire's consequence public and immediate, with a record no one can quietly change.",
+  heroNameTitle: "AgMon = Agni + Monad",
+  heroName: "Agni, the Hindu god of fire, also names Manggala Agni, Indonesia's forest fire brigade. Monad keeps the record public and unchangeable.",
   checkNasa: "Check the data on NASA FIRMS ↗",
   openNasa: "Open in NASA FIRMS ↗",
   dataSourceLabel: "Hotspot data",
@@ -132,9 +131,8 @@ const en = {
   insightsLoading: "Counting hotspots…",
   navDashboard: "Dashboard",
   heroEyebrow: "Monad Blitz Jogja 2026 · Forest fire accountability",
-  heroTitle: "When a forest burns, the permit holder pays for its recovery.",
-  heroBody:
-    "AgMon ties every satellite hotspot to the permit holder whose land it falls on, records the evidence on Monad, and releases 20% of their fire bond to restoration as soon as Manggala Agni, the forest fire brigade, confirms the fire in the field.",
+  heroTitle: "When a forest burns, the permit holder pays.",
+  heroBody: "AgMon ties every satellite hotspot to its permit holder on Monad. When field officers confirm the fire, 20% of the holder's bond goes to restoration.",
   ctaDashboard: "Open the live dashboard",
   ctaContract: "View the contract",
   heroLive: "Live on Monad testnet",
@@ -291,9 +289,8 @@ const id: Dict = {
   idrUnits: { trillion: "triliun", billion: "miliar", million: "juta", prefix: "Rp" },
 
   navHome: "Beranda",
-  heroNameTitle: "Mengapa \u201cAgMon\u201d?",
-  heroName:
-    "Agni + Monad. Agni adalah dewa api dalam mitologi Hindu, sekaligus nama Manggala Agni, brigade pengendalian kebakaran hutan yang memverifikasi setiap insiden di AgMon. Monad adalah blockchain yang membuat konsekuensi setiap kebakaran tercatat terbuka dan langsung berlaku, tanpa ada yang bisa mengubahnya diam-diam.",
+  heroNameTitle: "AgMon = Agni + Monad",
+  heroName: "Agni, dewa api dalam mitologi Hindu, juga nama brigade pemadam kebakaran hutan Manggala Agni. Monad menjaga catatannya terbuka dan tak bisa diubah.",
   checkNasa: "Cek data di NASA FIRMS ↗",
   openNasa: "Buka di NASA FIRMS ↗",
   dataSourceLabel: "Data titik api",
@@ -331,9 +328,8 @@ const id: Dict = {
   insightsLoading: "Menghitung titik api…",
   navDashboard: "Dasbor",
   heroEyebrow: "Monad Blitz Jogja 2026 · Akuntabilitas kebakaran hutan",
-  heroTitle: "Hutan terbakar, pemegang izin menanggung pemulihannya.",
-  heroBody:
-    "AgMon mengikat setiap titik api satelit ke pemegang izin pemilik lahannya, mencatat buktinya di Monad, dan mencairkan 20% jaminan kebakarannya ke dana restorasi begitu Manggala Agni, brigade pemadam kebakaran hutan, mengonfirmasi di lapangan.",
+  heroTitle: "Hutan terbakar, pemegang izin yang membayar.",
+  heroBody: "AgMon mengikat setiap titik api satelit ke pemegang izinnya di Monad. Begitu petugas lapangan mengonfirmasi, 20% jaminannya cair ke dana restorasi.",
   ctaDashboard: "Buka dasbor live",
   ctaContract: "Lihat kontrak",
   heroLive: "Berjalan di Monad testnet",
