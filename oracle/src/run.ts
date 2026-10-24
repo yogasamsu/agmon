@@ -37,7 +37,7 @@ async function existingKeys(supa: Supa, from: number, to: number): Promise<Set<s
 async function main() {
   const fileArg = process.argv.indexOf("--file");
   const file = fileArg >= 0 ? process.argv[fileArg + 1] : undefined;
-  const source = file ? `file:${basename(file)}` : config.firmsSource;
+  const source = file ? `file:${basename(file)}` : config.firmsSources.join("+");
 
   const supa = db();
   const oracle = walletFor(config.oracleKey());

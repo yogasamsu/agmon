@@ -25,10 +25,12 @@ export const config = {
   supabaseUrl: () => required("SUPABASE_URL"),
   supabaseServiceKey: () => required("SUPABASE_SERVICE_ROLE_KEY"),
   firmsMapKey: () => required("FIRMS_MAP_KEY"),
-  firmsSource: optional("FIRMS_SOURCE", "VIIRS_SNPP_NRT"),
+  // Satu atau lebih produk FIRMS, dipisah koma. Bawaan: tiga satelit VIIRS supaya lintasan lebih rapat.
+  firmsSources: optional("FIRMS_SOURCE", "VIIRS_NOAA20_NRT,VIIRS_NOAA21_NRT,VIIRS_SNPP_NRT").split(",").map((s) => s.trim()),
   // Satu atau lebih kotak "barat,selatan,timur,utara", dipisah titik koma. Bawaan: seluruh Indonesia.
   firmsAreas: optional("FIRMS_AREAS", "94.5,-11.5,141.5,6.5").split(";"),
-  firmsDayRange: Number(optional("FIRMS_DAY_RANGE", "1")),
+  // 2 hari: hari ini menurut UTC sering belum berisi lintasan, karena lintasan dini hari WIB tercatat sebagai tanggal kemarin.
+  firmsDayRange: Number(optional("FIRMS_DAY_RANGE", "2")),
   bondMon: optional("BOND_MON", "10"),
   maxReports: Number(optional("MAX_REPORTS", "25")),
 };

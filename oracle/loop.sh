@@ -13,12 +13,11 @@ fi
 
 while true; do
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] putaran oracle dimulai" | tee -a oracle.log
-  if npm run -s oracle >> oracle.log 2>&1; then
-    tail -n 5 oracle.log
-  else
-    echo "Putaran gagal, dicoba lagi di putaran berikutnya. Lima baris terakhir oracle.log:"
-    tail -n 5 oracle.log
-  fi
+  out=$(npm run -s oracle 2>&1)
+  status=$?
+  printf '%s\n' "$out" >> oracle.log
+  printf '%s\n' "$out" | tail -n 12
+  [ "$status" -ne 0 ] && echo "Putaran gagal, dicoba lagi di putaran berikutnya. Detail di oracle.log."
   echo "Putaran berikutnya dalam $((INTERVAL / 60)) menit. Tekan Ctrl+C untuk berhenti."
   sleep "$INTERVAL"
 done
